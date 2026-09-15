@@ -648,8 +648,7 @@ li code {
   z-index: 70;
   display: grid;
   place-items: center;
-  background: rgba(6, 8, 13, 0.94);
-  backdrop-filter: blur(10px);
+  background: #06080d;
   transition: opacity 0.45s ease, visibility 0.45s ease;
 }
 .welcome-splash.is-gone {
@@ -661,10 +660,15 @@ li code {
   text-align: center;
   padding: 1.5rem;
 }
+.welcome-larvae {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
 .welcome-inner img {
-  width: min(220px, 70vw);
+  width: min(180px, 55vw);
   height: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 .welcome-inner p {
   color: var(--neon);

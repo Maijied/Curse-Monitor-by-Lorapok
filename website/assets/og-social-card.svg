@@ -25,5 +25,5 @@
   <text x="420" y="250" fill="#f1f5fb" font-size="64" font-family="DM Sans, Segoe UI, sans-serif" font-weight="700">Curse Monitor</text>
   <text x="420" y="318" fill="#6C5CE7" font-size="32" font-family="DM Sans, Segoe UI, sans-serif" font-weight="600">by Lorapok Labs</text>
   <text x="420" y="390" fill="#39ff14" font-size="28" font-family="DM Sans, Segoe UI, sans-serif" font-style="italic">Know your limits before they know you.</text>
-  <text x="420" y="460" fill="#8b9bb8" font-size="22" font-family="JetBrains Mono, monospace">CLI + agent plugin · curse.lorapok.tech</text>
+  <text x="420" y="460" fill="#8b9bb8" font-size="22" font-family="JetBrains Mono, monospace">CLI + agent plugin - curse.lorapok.tech</text>
 </svg>

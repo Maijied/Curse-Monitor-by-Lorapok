@@ -20,7 +20,7 @@
     </svg>`;
   }
 
-  document.querySelectorAll(".btn-larvae-loader").forEach((slot) => {
+  document.querySelectorAll(".btn-larvae-loader, .welcome-larvae").forEach((slot) => {
     if (slot.dataset.larvaeReady === "1") return;
     const size = Number(slot.getAttribute("data-larvae-size") || 20);
     slot.innerHTML = larvaeSvg(size);
@@ -31,17 +31,16 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (splash) {
     const seen = sessionStorage.getItem("cm-welcome") === "1";
-    if (seen || reduceMotion) {
-      splash.classList.add("is-gone");
-    } else {
-      window.setTimeout(() => {
+    if (!seen && !reduceMotion) {
+      splash.hidden = false;
+      splash.classList.remove("is-gone");
+      const dismiss = () => {
         splash.classList.add("is-gone");
+        splash.hidden = true;
         sessionStorage.setItem("cm-welcome", "1");
-      }, 1600);
-      splash.addEventListener("click", () => {
-        splash.classList.add("is-gone");
-        sessionStorage.setItem("cm-welcome", "1");
-      });
+      };
+      window.setTimeout(dismiss, 1600);
+      splash.addEventListener("click", dismiss);
     }
   }
 
