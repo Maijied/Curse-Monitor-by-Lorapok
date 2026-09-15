@@ -3,7 +3,8 @@ name: curse-monitor-status
 description: >-
   Show a pretty Cursor usage status board (included pool, bonus credits, Auto %,
   API %, on-demand, billing cycle). Use for human-facing usage questions. Prefer
-  curse-monitor json when the agent needs structured metrics.
+  curse-monitor report for grouped breakdowns and curse-monitor json when the
+  agent needs structured metrics.
 ---
 
 # Curse Monitor — status
@@ -27,6 +28,6 @@ Displays a boxed board with:
 - Billing cycle + days until reset
 - Stale 100% banner when API reports 100% but bonus credits remain
 
-For structured data use `curse-monitor json`. For account source use `curse-monitor whoami`.
+For grouped breakdowns use `curse-monitor report`. For structured data use `curse-monitor json`. For account source use `curse-monitor whoami`.
 
 **Never** print the access token.

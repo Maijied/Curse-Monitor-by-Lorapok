@@ -1,0 +1,38 @@
+{
+  "brand": {
+    "github": "https://github.com/lorapok",
+    "linkedin": "https://www.linkedin.com/showcase/lorapok/",
+    "x": "https://x.com/LorapokLabs",
+    "reddit": "https://www.reddit.com/r/LorapokLabs/",
+    "instagram": "https://www.instagram.com/lorapoklabs/",
+    "facebook": "https://www.facebook.com/lorapoklabs",
+    "labs": "https://lorapok.tech",
+    "gravatar": "https://gravatar.com/lorapok"
+  },
+  "community": {
+    "discord": "https://discord.gg/bp42QAMC6"
+  },
+  "founder": {
+    "github": "https://github.com/Maijied",
+    "linkedin": "https://www.linkedin.com/in/maizied/",
+    "telegram": "https://t.me/Maijied",
+    "portfolio": "https://maijied.github.io/Maijied"
+  },
+  "contact": {
+    "email": "admin@lorapok.tech",
+    "productEmail": "admin@lorapok.tech"
+  },
+  "product": {
+    "site": "https://curse.lorapok.tech",
+    "pages": "https://curse-monitor.pages.dev",
+    "github": "https://github.com/Maijied/Curse-Monitor-by-Lorapok",
+    "sibling": "https://cursor.lorapok.tech",
+    "missionControl": "https://cursor-dev.lorapok.tech"
+  },
+  "api": {
+    "base": "https://cursor-dev.lorapok.tech",
+    "health": "/api/curse-monitor/health",
+    "usage": "/api/curse-monitor/usage",
+    "note": "Stubs only until Mission Control connect. Do not send Cursor session tokens."
+  }
+}

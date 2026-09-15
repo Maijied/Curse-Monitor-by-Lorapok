@@ -1,9 +1,7 @@
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { existsSync } from "node:fs";
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
+import { openDatabase, readItem } from "./sqlite.js";
 
 export interface CursorAuth {
   accessToken: string;
@@ -59,42 +57,6 @@ export function discoverStateDbPaths(): { folder: string; path: string }[] {
     }
   }
   return found;
-}
-
-interface SqliteDb {
-  prepare: (sql: string) => {
-    get: (...params: unknown[]) => { value?: string | Uint8Array | Buffer } | undefined;
-  };
-  close?: () => void;
-}
-
-function openDatabase(dbPath: string): SqliteDb {
-  try {
-    const mod = require("node:sqlite") as {
-      DatabaseSync?: new (path: string) => SqliteDb;
-    };
-    if (mod?.DatabaseSync) {
-      return new mod.DatabaseSync(dbPath);
-    }
-  } catch {
-    // continue to better-sqlite3
-  }
-
-  try {
-    const Database = require("better-sqlite3") as new (path: string) => SqliteDb;
-    return new Database(dbPath);
-  } catch {
-    throw new Error(
-      "No SQLite backend available. Use Node.js 22+ (built-in node:sqlite) or install better-sqlite3."
-    );
-  }
-}
-
-function readItem(db: SqliteDb, key: string): string | undefined {
-  const row = db.prepare("SELECT value FROM ItemTable WHERE key = ?").get(key);
-  if (!row?.value) return undefined;
-  if (typeof row.value === "string") return row.value;
-  return Buffer.from(row.value).toString("utf8");
 }
 
 /**

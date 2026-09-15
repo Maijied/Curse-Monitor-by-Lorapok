@@ -4,7 +4,7 @@
   <h1>Curse Monitor</h1>
 
   <p><strong>Know your limits before they know you.</strong></p>
-  <p>Live Cursor usage — quotas, budget, and billing cycle · CLI + Grok Bot / Cursor agent plugin</p>
+  <p>Live Cursor usage — quotas, budget, grouped reports, and billing cycle · CLI + Grok Bot / Cursor agent plugin</p>
 
   <p>
     <a href="https://curse.lorapok.tech"><img alt="Website" src="https://img.shields.io/badge/site-curse.lorapok.tech-6C5CE7?labelColor=1a1f28" /></a>
@@ -12,15 +12,17 @@
     <img alt="Node >=20" src="https://img.shields.io/badge/Node-%3E%3D20-339933?logo=node.js&logoColor=white" />
     <img alt="MIT License" src="https://img.shields.io/badge/License-MIT-6C5CE7" />
     <img alt="Lorapok Labs" src="https://img.shields.io/badge/Lorapok-Labs-39ff14?labelColor=1a1f28" />
-    <img alt="Version 0.1.2" src="https://img.shields.io/badge/version-0.1.2-a29bfe" />
+    <img alt="Version 0.2.0" src="https://img.shields.io/badge/version-0.2.0-a29bfe" />
   </p>
 </div>
 
 **Curse Monitor** is a lean companion to [Cursor Curse Monitor](https://cursor.lorapok.tech) by [Lorapok Labs](https://lorapok.tech).  
-It is a **CLI + Grok Bot / Cursor agent plugin** (not the VS Code extension) that surfaces included pool, bonus/agent credits, Auto %, API %, on-demand spend, and billing-cycle countdown from your local Cursor session.
+It is a **CLI + Grok Bot / Cursor agent plugin** (not the VS Code extension) that surfaces included pool, bonus/agent credits, Auto %, API %, on-demand spend, billing-cycle countdown, and grouped reports from your local Cursor session.
 
-Site: [curse.lorapok.tech](https://curse.lorapok.tech) · Repo: [Maijied/Curse-Monitor-by-Lorapok](https://github.com/Maijied/Curse-Monitor-by-Lorapok)  
-Accent: `#6C5CE7` · Mascot: official Lorapok Larvae · Privacy: tokens never printed.
+Site: [curse.lorapok.tech](https://curse.lorapok.tech) · Pages: [curse-monitor.pages.dev](https://curse-monitor.pages.dev) · Repo: [Maijied/Curse-Monitor-by-Lorapok](https://github.com/Maijied/Curse-Monitor-by-Lorapok)  
+Accent: `#6C5CE7` · Neon: `#39ff14` · Mascot: official Lorapok Larvae · Privacy: tokens never printed.
+
+**Constraint:** Cursor API does **not** expose per-model dollar spend. Model breakdown is local active-model / analytics grouping plus Auto/API meters — never a billed USD split.
 
 ## Install
 
@@ -34,8 +36,8 @@ npm link          # puts `curse-monitor` on your PATH
 Or without linking:
 
 ```bash
-npm start -- status
-# equivalent: node dist/cli.js status
+npm start -- report
+# equivalent: node dist/cli.js report
 ```
 
 Requirements: Node.js **20+** (Node **22+** recommended for built-in `node:sqlite`) and a signed-in Cursor (or `CURSOR_TOKEN` / `--token`).
@@ -45,8 +47,9 @@ Requirements: Node.js **20+** (Node **22+** recommended for built-in `node:sqlit
 ```text
 curse-monitor              # pretty status board (default)
 curse-monitor status
+curse-monitor report [--group-by autoApi] [--range 7d]
 curse-monitor watch [--interval 30]
-curse-monitor json
+curse-monitor json [--report] [-g autoApi] [-r 7d]
 curse-monitor whoami
 curse-monitor --help
 ```
@@ -54,9 +57,19 @@ curse-monitor --help
 | Command | Purpose |
 |---------|---------|
 | `status` | Human-facing boxed board |
-| `json` | Machine-readable snapshot + richer `metrics` for agents |
+| `report` | Board + grouped breakdowns (`model` \| `autoApi` \| `surface`) |
+| `json` | Machine-readable snapshot; `--report` adds analytics |
 | `whoami` | Which Cursor product folder / email will be used |
-| `watch` | Live refresh every N seconds |
+| `watch` | Live refresh every N seconds (also records Auto/API poll history) |
+
+### Report flags
+
+| Flag | Values |
+|------|--------|
+| `--group-by` / `-g` | `model` · `autoApi` · `surface` |
+| `--range` / `-r` | `7d` · `30d` · `cycle` · `mtd` |
+
+`autoApi` uses Cursor usage-summary meters plus local poll history. `surface` uses local Tab/Composer daily stats. `model` lists locally active models — **not** per-model dollars (the API does not provide that).
 
 ### Auth
 
@@ -66,69 +79,29 @@ curse-monitor --help
 | `CURSOR_TOKEN` env | 2 |
 | Cursor `state.vscdb` (`cursorAuth/accessToken`) | 3 |
 
-Searched product folders (Linux shown; macOS/Windows supported):
-
-1. `~/.config/Cursor/User/globalStorage/state.vscdb`
-2. `dCursor`, `Cursor Nightly`, `Windsurf` (same relative path)
-
 The access token is **never** logged or written to JSON output.
 
 ### Example status
 
-```text
-╭──────────────────────────────────────────────────────────╮
-│ Curse Monitor                                            │
-├──────────────────────────────────────────────────────────┤
-│ Account  you@example.com                                 │
-│ Plan     pro                                             │
-│                                                          │
-│ Included ████████████████████████  2000 / 2000  100.0%   │
-│ Bonus    ░░░░░░░░░░░░░░░░░░░░░░░░  0 / 23214  0.0%       │
-│ Pool     ██░░░░░░░░░░░░░░░░░░░░░░  2000 / 25214  7.9%    │
-│ Auto %   ████████████████████████  100.0%                │
-│ API %    ████████████████████████  100.0%                │
-│ On-demand disabled                                       │
-│                                                          │
-│ Cycle    Sep 1 → Oct 1 (17d until reset)                 │
-│                                                          │
-│ ⚠ Stale 100% banner — 23,214 bonus credits remain        │
-╰──────────────────────────────────────────────────────────╯
-```
+The board shows included / bonus / combined pool, Auto %, API %, on-demand, billing cycle, and a stale-100% banner when the API reports 100% but bonus credits remain. Exact numbers come from **your** Cursor session — this README does not invent sample quotas.
 
 ## Plugin (Grok Bot / Cursor agents)
 
-Marketplace-ready package under `plugin/`:
+Marketplace layout matches [cursor/plugin-template](https://github.com/cursor/plugin-template):
 
 ```text
-plugin/
+.cursor-plugin/marketplace.json
+plugins/curse-monitor/
   .cursor-plugin/plugin.json
-  .cursor-plugin/marketplace.json
-  assets/logo.png (+ svg)
-  skills/… (status, watch, overview)
-  README.md · LICENSE · CHANGELOG.md
+  assets/logo-animated.svg
+  skills/…  commands/report.md
 ```
 
-Install the CLI first (`npm link` from this repo), then point Cursor / Grok Bot at the `plugin/` directory. Skills teach agents to run:
+```bash
+npm run validate-template
+```
 
-`curse-monitor status | json | whoami | watch`
-
-See [PLUGIN_STORE.md](./PLUGIN_STORE.md) for Cursor Marketplace submission steps.
-
-## Data types
-
-| Field | Source | Notes |
-|-------|--------|-------|
-| Included pool | `individualUsage.plan.breakdown.included` / `limit` | Bar + used/total |
-| Bonus / Agent credits | `plan.breakdown.bonus` | Shown when bonus > 0 |
-| Combined pool | included + bonus (`breakdown.total`) | Remaining drives at-limit |
-| Auto % | `plan.autoPercentUsed` | Always when present |
-| API % | `plan.apiPercentUsed` | Always when present |
-| On-demand | `individualUsage.onDemand` | Cents → USD when values look like cents |
-| Team on-demand | `teamUsage.onDemand` | When enabled |
-| Cycle / days until reset | `billingCycleStart` / `End` | Countdown |
-| Stale 100% banner | derived | Yellow when API says 100% but `pool.remaining > 0` |
-| Membership / team | summary + Stripe profile | `isTeamMember`, `teamId` |
-| Limit type / unlimited | `limitType`, `isUnlimited` | Plan metadata |
+See [PLUGIN_STORE.md](./PLUGIN_STORE.md) for the Cursor Marketplace submission checklist.
 
 ## Library API
 
@@ -136,34 +109,42 @@ See [PLUGIN_STORE.md](./PLUGIN_STORE.md) for Cursor Marketplace submission steps
 import {
   resolveAuth,
   fetchSnapshot,
-  buildBudgetMetrics,
-  resolveUsagePlanPool,
-  formatStatusBoard,
+  buildUsageReport,
+  formatReportBoard,
 } from "curse-monitor";
 
 const auth = resolveAuth();
-const snap = await fetchSnapshot(auth.accessToken, { email: auth.email });
-console.log(formatStatusBoard(snap));
+const snap = await fetchSnapshot(auth.accessToken, {
+  email: auth.email,
+  productFolder: auth.productFolder,
+  dbPath: auth.dbPath,
+});
+console.log(formatReportBoard(snap, buildUsageReport(snap, { groupBy: "autoApi", range: "7d" })));
 ```
 
-Endpoints used (Bearer token):
+Endpoints used (Bearer token, from the CLI on your machine):
 
 - `GET https://api2.cursor.sh/auth/usage-summary`
 - `GET https://api2.cursor.sh/auth/full_stripe_profile`
 
-## Sibling product
+## Website & API stub
 
-This CLI/plugin is a companion to the full **Cursor Curse Monitor** experience at [cursor.lorapok.tech](https://cursor.lorapok.tech).  
-More from Lorapok Labs: [lorapok.tech](https://lorapok.tech).
+- Static marketing site in `website/` (Cloudflare Pages). Tokens: `website/shared/tokens.css`. SEO source: `website/seo.yml` → `npm run seo`.
+- Optional Worker stub in `api/` (`/api/curse-monitor/health` and `/usage`) for a later connect to Mission Control at [cursor-dev.lorapok.tech](https://cursor-dev.lorapok.tech). **Not wired to Cursor tokens.** See [api/README.md](./api/README.md).
 
 ## Scripts
 
 | Script | Action |
 |--------|--------|
 | `npm run build` | Compile TypeScript → `dist/` |
-| `npm start` | Run CLI (`node dist/cli.js`) |
-| `npm run cli` | Alias for start |
-| `npm run demo` | Offline fixture status board |
+| `npm test` | Build + unit tests |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm run validate-template` | Cursor plugin template rules |
+| `npm run ci` | typecheck + test + validate-template |
+| `npm run seo` | Generate `seo.json` / sitemap / robots from `seo.yml` |
+| `npm run demo` | Offline fixture status board (pool math only) |
+
+CI (`.github/workflows/ci.yml`) runs those checks on push/PR. Pages deploy on `main` is **optional** and skipped unless `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets exist. API stub deploy additionally requires variable `DEPLOY_API_STUB=true`. This repo does not contain those credentials.
 
 ## Privacy
 

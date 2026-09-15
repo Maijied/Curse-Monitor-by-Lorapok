@@ -1,0 +1,123 @@
+{
+  "generatedAt": "2026-09-15T03:03:17.201Z",
+  "source": "website/seo.yml",
+  "siteBase": "https://curse.lorapok.tech",
+  "title": "Curse Monitor by Lorapok — Know your limits before they know you",
+  "description": "Live Cursor usage for CLI + Grok Bot: quotas, bonus credits, Auto/API %, grouped reports, and billing cycle. Companion to Cursor Curse Monitor. Local-first auth. Not the VS Code extension.",
+  "version": "0.2.0",
+  "packageVersion": "0.2.0",
+  "canonical": "https://curse.lorapok.tech/",
+  "openGraph": {
+    "type": "website",
+    "locale": "en_US",
+    "title": "Curse Monitor by Lorapok",
+    "description": "Live Cursor usage for CLI + agent plugin. Know your limits before they know you.",
+    "url": "https://curse.lorapok.tech/",
+    "image": "https://curse.lorapok.tech/assets/og-social-card.svg"
+  },
+  "twitter": {
+    "card": "summary_large_image",
+    "title": "Curse Monitor by Lorapok",
+    "description": "Quotas, bonus pool, Auto/API reports — local-first CLI + plugin.",
+    "image": "https://curse.lorapok.tech/assets/og-social-card.svg"
+  },
+  "pages": {
+    "index": {
+      "title": "Curse Monitor by Lorapok — Know your limits before they know you",
+      "description": "Live Cursor usage for CLI + Grok Bot: quotas, bonus credits, Auto/API %, grouped reports, and billing cycle. Companion to Cursor Curse Monitor. Local-first auth. Not the VS Code extension.",
+      "canonical": "https://curse.lorapok.tech/",
+      "ogTitle": "Curse Monitor by Lorapok",
+      "ogDescription": "Live Cursor usage for CLI + agent plugin. Know your limits before they know you."
+    },
+    "docs": {
+      "title": "Docs — Curse Monitor CLI & plugin | Lorapok",
+      "description": "CLI reference for status, report, watch, json, whoami. Plugin install and auth notes.",
+      "canonical": "https://curse.lorapok.tech/docs.html",
+      "ogTitle": "Docs — Curse Monitor",
+      "ogDescription": "CLI reference + Cursor agent plugin install."
+    },
+    "privacy": {
+      "title": "Privacy — Curse Monitor by Lorapok",
+      "description": "Local Cursor token, never printed. No telemetry from the CLI.",
+      "canonical": "https://curse.lorapok.tech/privacy.html",
+      "ogTitle": "Privacy — Curse Monitor",
+      "ogDescription": "Local-first CLI. Tokens never leave your machine via this product's telemetry."
+    },
+    "terms": {
+      "title": "Terms — Curse Monitor by Lorapok",
+      "description": "Terms of use for Curse Monitor CLI and agent plugin by Lorapok Labs.",
+      "canonical": "https://curse.lorapok.tech/terms.html",
+      "ogTitle": "Terms — Curse Monitor",
+      "ogDescription": "MIT-licensed CLI + plugin. Not affiliated with Anysphere / Cursor."
+    }
+  },
+  "sameAs": [
+    "https://lorapok.tech",
+    "https://github.com/lorapok",
+    "https://www.linkedin.com/showcase/lorapok/",
+    "https://x.com/LorapokLabs",
+    "https://www.reddit.com/r/LorapokLabs/",
+    "https://www.instagram.com/lorapoklabs/",
+    "https://www.facebook.com/lorapoklabs",
+    "https://discord.gg/bp42QAMC6"
+  ],
+  "structuredData": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://curse.lorapok.tech/#organization",
+        "name": "Lorapok Labs",
+        "url": "https://lorapok.tech",
+        "logo": "https://curse.lorapok.tech/assets/logo.png",
+        "sameAs": [
+          "https://lorapok.tech",
+          "https://github.com/lorapok",
+          "https://www.linkedin.com/showcase/lorapok/",
+          "https://x.com/LorapokLabs",
+          "https://www.reddit.com/r/LorapokLabs/",
+          "https://www.instagram.com/lorapoklabs/",
+          "https://www.facebook.com/lorapoklabs",
+          "https://discord.gg/bp42QAMC6"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://curse.lorapok.tech/#website",
+        "name": "Curse Monitor by Lorapok",
+        "url": "https://curse.lorapok.tech/",
+        "publisher": {
+          "@id": "https://curse.lorapok.tech/#organization"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://curse.lorapok.tech/#cli",
+        "name": "Curse Monitor",
+        "publisher": {
+          "@id": "https://curse.lorapok.tech/#organization"
+        },
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, macOS, Linux",
+        "featureList": "CLI status board, grouped reports, JSON for agents, Grok Bot plugin",
+        "downloadUrl": "https://github.com/Maijied/Curse-Monitor-by-Lorapok",
+        "softwareVersion": "0.2.0",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  },
+  "indexingPolicy": {
+    "adminNoindex": true,
+    "marketingAllow": true,
+    "adminUrls": [
+      "https://cursor-dev.lorapok.tech"
+    ],
+    "policySummary": "The public marketing site at https://curse.lorapok.tech is indexable. Mission Control (cursor-dev.lorapok.tech) uses noindex and is not this product's live usage API yet.",
+    "sitemapUrl": "https://curse.lorapok.tech/sitemap.xml",
+    "robotsUrl": "https://curse.lorapok.tech/robots.txt"
+  }
+}

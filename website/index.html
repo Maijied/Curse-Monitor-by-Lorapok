@@ -3,27 +3,75 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Curse Monitor by Lorapok — Live Cursor usage for CLI + Grok Bot</title>
-  <meta name="description" content="Live Cursor usage for CLI + Grok Bot — quotas, bonus credits, Auto/API %, billing cycle. Know your limits before they know you." />
+  <!-- seo:begin -->
+  <title>Curse Monitor by Lorapok — Know your limits before they know you</title>
+  <meta name="description" content="Live Cursor usage for CLI + Grok Bot: quotas, bonus credits, Auto/API %, grouped reports, and billing cycle. Companion to Cursor Curse Monitor. Local-first auth. Not the VS Code extension." />
   <link rel="canonical" href="https://curse.lorapok.tech/" />
-  <meta name="theme-color" content="#6C5CE7" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://curse.lorapok.tech/" />
   <meta property="og:title" content="Curse Monitor by Lorapok" />
-  <meta property="og:description" content="Live Cursor usage for CLI + Grok Bot — quotas, bonus credits, Auto/API %, billing cycle." />
-  <meta property="og:image" content="https://curse.lorapok.tech/assets/logo.png" />
+  <meta property="og:description" content="Live Cursor usage for CLI + agent plugin. Know your limits before they know you." />
+  <meta property="og:image" content="https://curse.lorapok.tech/assets/og-social-card.svg" />
   <meta property="og:site_name" content="Curse Monitor" />
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Curse Monitor by Lorapok" />
-  <meta name="twitter:description" content="Live Cursor usage for CLI + Grok Bot — quotas, bonus credits, Auto/API %, billing cycle." />
-  <meta name="twitter:image" content="https://curse.lorapok.tech/assets/logo.png" />
+  <meta name="twitter:description" content="Live Cursor usage for CLI + agent plugin. Know your limits before they know you." />
+  <meta name="twitter:image" content="https://curse.lorapok.tech/assets/og-social-card.svg" />
+  <!-- seo:end -->
+  <meta name="theme-color" content="#6C5CE7" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
-  <link rel="icon" type="image/png" sizes="128x128" href="/assets/icon-128.png" />
   <link rel="apple-touch-icon" href="/assets/icon-256.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://curse.lorapok.tech/#organization",
+        "name": "Lorapok Labs",
+        "url": "https://lorapok.tech",
+        "logo": "https://curse.lorapok.tech/assets/logo.png"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://curse.lorapok.tech/#website",
+        "name": "Curse Monitor by Lorapok",
+        "url": "https://curse.lorapok.tech/",
+        "publisher": { "@id": "https://curse.lorapok.tech/#organization" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://curse.lorapok.tech/#cli",
+        "name": "Curse Monitor",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, macOS, Linux",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "featureList": "CLI status board, grouped reports, JSON for agents, Grok Bot plugin",
+        "softwareVersion": "0.2.0",
+        "downloadUrl": "https://github.com/Maijied/Curse-Monitor-by-Lorapok"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="site-ambient" aria-hidden="true"></div>
+  <div id="welcome-splash" class="welcome-splash" role="dialog" aria-label="Welcome">
+    <div class="welcome-inner">
+      <span class="btn-larvae-loader" data-larvae-size="48" aria-hidden="true"></span>
+      <img src="/assets/welcome-animation.svg" width="220" height="220" alt="" />
+      <p>Know your limits before they know you.</p>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="/">
@@ -40,16 +88,16 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <section class="hero">
       <div class="container">
-        <img class="hero-logo" src="/assets/logo.png" width="140" height="140" alt="Curse Monitor by Lorapok — Larvae mascot" />
-        <div class="eyebrow">Lorapok Labs · CLI + Grok Bot</div>
+        <img class="hero-logo larvae-pulse" src="/assets/logo.svg" width="140" height="140" alt="Curse Monitor by Lorapok — Larvae mascot" />
+        <div class="eyebrow">Lorapok Labs · CLI + Grok Bot plugin · v0.2.0</div>
         <h1>Curse Monitor <span class="accent">by Lorapok</span></h1>
-        <p class="tagline">Live Cursor usage for CLI + Grok Bot — quotas, bonus credits, Auto/API %, billing cycle</p>
+        <p class="tagline">Live Cursor usage for CLI + agents — quotas, bonus credits, Auto/API %, grouped reports, billing cycle</p>
         <p class="quote">“Know your limits before they know you.”</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#install">Install CLI</a>
+          <a class="btn btn-primary btn-loadable" href="#install"><span class="btn-label">Install CLI</span><span class="btn-larvae-loader" hidden></span></a>
           <a class="btn btn-ghost" href="/docs.html">CLI reference</a>
           <a class="btn btn-neon" href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">View on GitHub</a>
         </div>
@@ -65,38 +113,41 @@
     <section id="features">
       <div class="container">
         <h2 class="section-title">What you get</h2>
-        <p class="section-lead">A lean terminal board and agent plugin — not the VS Code extension. Surfaces the same Cursor usage story your dashboard has, right where you work.</p>
+        <p class="section-lead">A lean terminal board and agent plugin — not the VS Code extension. Surfaces Cursor usage where you work, including grouped reports.</p>
         <div class="grid">
           <article class="card">
-            <div class="icon" aria-hidden="true">⌘</div>
+            <img class="feature-svg" src="/assets/features/monitor-dashboard.svg" alt="" />
             <h3>CLI status / watch / json / whoami</h3>
             <p>Pretty boxed board, live refresh, machine-readable JSON for agents, and account discovery across Cursor product folders.</p>
           </article>
           <article class="card">
-            <div class="icon" aria-hidden="true">Σ</div>
+            <img class="feature-svg" src="/assets/features/usage-meter.svg" alt="" />
+            <h3>Reports by model, Auto/API, surface</h3>
+            <p><code>curse-monitor report</code> groups <code>model</code>, <code>autoApi</code>, or <code>surface</code> over <code>7d</code>, <code>30d</code>, <code>cycle</code>, or <code>mtd</code>.</p>
+          </article>
+          <article class="card">
+            <img class="feature-svg" src="/assets/features/budget-cap.svg" alt="" />
             <h3>Bonus pool math</h3>
             <p>Included + bonus/agent credits → combined pool, remaining, and at-limit — so a “100%” included bar doesn’t hide leftover bonus.</p>
           </article>
           <article class="card">
-            <div class="icon" aria-hidden="true">⚠</div>
+            <img class="feature-svg" src="/assets/features/billing-cycle.svg" alt="" />
             <h3>Stale 100% detection</h3>
             <p>Yellow banner when the API shows 100% but pool remaining is still positive — catch misleading meters before you overreact.</p>
           </article>
           <article class="card">
-            <div class="icon" aria-hidden="true">✦</div>
+            <img class="feature-svg" src="/assets/features/activity-bar.svg" alt="" />
             <h3>Grok Bot plugin</h3>
-            <p>Marketplace-ready skills under <code>plugin/</code> teach Cursor / Grok Bot agents to run <code>curse-monitor status|json|whoami|watch</code>.</p>
+            <p>Marketplace-ready skills under <code>plugins/curse-monitor/</code> teach agents to run status, report, json, whoami, and watch.</p>
           </article>
           <article class="card">
-            <div class="icon" aria-hidden="true">%</div>
-            <h3>Auto % · API % · cycle</h3>
-            <p>Auto and API percent used, on-demand spend, and billing-cycle countdown — pace usage through the month.</p>
-          </article>
-          <article class="card">
-            <div class="icon" aria-hidden="true">🔒</div>
+            <img class="feature-svg" src="/assets/features/security-shield.svg" alt="" />
             <h3>Privacy-first</h3>
             <p>Token stays on your machine. Never printed, never written to JSON. Network only to <code>api2.cursor.sh</code>.</p>
           </article>
+        </div>
+        <div class="constraint-callout">
+          <strong>Honest limit:</strong> Cursor API does not expose per-model dollar spend. Model breakdown is local active-model / analytics grouping plus Auto/API meters — not a dollar split.
         </div>
       </div>
     </section>
@@ -113,9 +164,9 @@ cd Curse-Monitor-by-Lorapok
 npm install
 npm run build
 npm link
-curse-monitor status</code></pre>
+curse-monitor report</code></pre>
           </div>
-          <p class="note">Without linking: <code>npm start -- status</code> or <code>node dist/cli.js status</code>. Auth from Cursor session, <code>CURSOR_TOKEN</code>, or <code>--token</code>.</p>
+          <p class="note">Without linking: <code>npm start -- report</code> or <code>node dist/cli.js report</code>. Auth from Cursor session, <code>CURSOR_TOKEN</code>, or <code>--token</code>.</p>
         </div>
       </div>
     </section>
@@ -141,6 +192,12 @@ curse-monitor status</code></pre>
         <strong style="color: var(--text)">Lorapok Labs</strong>
         <div>Curse Monitor · MIT License</div>
         <div class="tiny">© <span data-year>2026</span> Lorapok Labs · Not affiliated with Cursor / Anysphere</div>
+        <div class="social-row">
+          <a href="https://x.com/LorapokLabs">X</a>
+          <a href="https://www.linkedin.com/showcase/lorapok/">LinkedIn</a>
+          <a href="https://discord.gg/bp42QAMC6">Discord</a>
+          <a href="https://github.com/lorapok">GitHub org</a>
+        </div>
       </div>
       <nav class="footer-links" aria-label="Footer">
         <a href="https://lorapok.tech">lorapok.tech</a>
@@ -148,6 +205,7 @@ curse-monitor status</code></pre>
         <a href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">GitHub</a>
         <a href="/docs.html">Docs</a>
         <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
       </nav>
     </div>
   </footer>

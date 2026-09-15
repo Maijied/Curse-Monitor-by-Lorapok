@@ -1,5 +1,7 @@
-# Cloudflare Pages — Curse Monitor marketing site
+# Cloudflare Pages — Curse Monitor marketing site (static).
 # Deploy: wrangler pages deploy website --project-name=curse-monitor
+# Requires CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID (CI secrets; not in git).
+# API stubs live in ../api (Worker), not Pages Functions — site stays static.
 name = "curse-monitor"
-compatibility_date = "2025-01-01"
+compatibility_date = "2026-09-01"
 pages_build_output_dir = "."

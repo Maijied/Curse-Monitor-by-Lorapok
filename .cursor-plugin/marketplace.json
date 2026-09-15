@@ -1,0 +1,19 @@
+{
+  "name": "curse-monitor",
+  "owner": {
+    "name": "Lorapok Labs",
+    "email": "admin@lorapok.tech",
+    "url": "https://lorapok.tech"
+  },
+  "metadata": {
+    "description": "Curse Monitor by Lorapok Labs — CLI + agent plugin for Cursor usage",
+    "version": "0.2.0"
+  },
+  "plugins": [
+    {
+      "name": "curse-monitor",
+      "source": "./plugins/curse-monitor",
+      "description": "Live Cursor usage for agents — quotas, bonus credits, Auto/API %, reports, billing cycle."
+    }
+  ]
+}

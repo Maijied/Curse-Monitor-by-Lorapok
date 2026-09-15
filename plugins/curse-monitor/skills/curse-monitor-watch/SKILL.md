@@ -14,8 +14,9 @@ curse-monitor watch --interval 30
 
 - Default interval: 30 seconds (minimum 5).
 - Clears the terminal and redraws the status board each tick.
+- Builds local Auto/API poll history used by `curse-monitor report`.
 - Stop with Ctrl+C.
 
-Related commands: `curse-monitor status`, `curse-monitor json`, `curse-monitor whoami`.
+Related commands: `curse-monitor status`, `curse-monitor report`, `curse-monitor json`, `curse-monitor whoami`.
 
 **Never** print the access token.

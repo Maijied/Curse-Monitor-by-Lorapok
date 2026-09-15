@@ -1,6 +1,6 @@
 {
   "name": "curse-monitor",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Live Cursor usage for CLI + Grok Bot \u2014 quotas, bonus credits, Auto/API %, budget, and billing cycle. Companion to Cursor Curse Monitor by Lorapok Labs.",
   "type": "module",
   "main": "./dist/index.js",
@@ -10,9 +10,14 @@
   },
   "scripts": {
     "build": "tsc",
+    "typecheck": "tsc --noEmit",
     "start": "node dist/cli.js",
     "cli": "node dist/cli.js",
     "demo": "node scripts/demo-status.mjs",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "validate-template": "node scripts/validate-template.mjs",
+    "seo": "node scripts/generate-seo.mjs",
+    "ci": "npm run typecheck && npm test && npm run validate-template",
     "prepublishOnly": "npm run build"
   },
   "engines": {
@@ -43,11 +48,12 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "yaml": "^2.7.1"
   },
   "files": [
     "dist",
-    "plugin",
+    "plugins",
     "media",
     "README.md",
     "LICENSE"

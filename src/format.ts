@@ -1,5 +1,7 @@
 import chalk from "chalk";
 import type { BudgetMetrics, UsageSnapshot } from "./api.js";
+import type { UsageReport } from "./report.js";
+import type { UsageAnalyticsView } from "./usageAnalytics.js";
 
 export const ACCENT = "#6C5CE7";
 
@@ -177,4 +179,90 @@ export function formatStatusBoard(snapshot: UsageSnapshot): string {
   }
 
   return box(lines, "Curse Monitor");
+}
+
+function spark(values: number[], width = 24): string {
+  if (!values.length) return muted("░".repeat(width));
+  const max = Math.max(...values, 1);
+  const chars = "▁▂▃▄▅▆▇█";
+  const out: string[] = [];
+  const step = Math.max(1, Math.floor(values.length / width));
+  for (let i = 0; i < values.length && out.length < width; i += step) {
+    const v = values[i] ?? 0;
+    const idx = Math.min(chars.length - 1, Math.round((v / max) * (chars.length - 1)));
+    out.push(chars[idx]!);
+  }
+  return purple(out.join(""));
+}
+
+function formatAnalyticsLayers(view: UsageAnalyticsView): string[] {
+  const lines: string[] = [];
+  if (view.emptyMessage && view.points.length === 0) {
+    lines.push(muted(view.emptyMessage));
+    return lines;
+  }
+  for (const layer of view.layers) {
+    const last = layer.values[layer.values.length - 1] ?? 0;
+    const unit = view.yUnit === "percent" ? `${last.toFixed(1)}%` : `${Math.round(last).toLocaleString()} ${view.yUnit}`;
+    lines.push(
+      `${muted(layer.label.padEnd(18))} ${spark(layer.values)}  ${unit}`
+    );
+  }
+  if (view.emptyMessage) {
+    lines.push(muted(view.emptyMessage));
+  }
+  return lines;
+}
+
+/** Human report board: pool metrics + grouped analytics. */
+export function formatReportBoard(snapshot: UsageSnapshot, report: UsageReport): string {
+  const status = formatStatusBoard(snapshot);
+  const m = snapshot.metrics;
+  const a = report.analytics;
+  const lines: string[] = [];
+
+  lines.push(`${muted("Group")}    ${bold(report.groupBy)}   ${muted("Range")} ${bold(report.range)}`);
+  lines.push(`${muted("History")}  ${report.historyPoints} local poll point(s)`);
+  lines.push("");
+  lines.push(`${muted(a.kpi.totalLabel.padEnd(10))} ${a.kpi.totalValue}`);
+  lines.push(`${muted(a.kpi.includedLabel.padEnd(10))} ${a.kpi.includedValue}`);
+  lines.push(`${muted("Bonus".padEnd(10))} ${a.kpi.bonusValue}`);
+  lines.push(`${muted(a.kpi.autoLabel.padEnd(10))} ${a.kpi.autoValue}   ${muted(a.kpi.apiLabel)} ${a.kpi.apiValue}`);
+  lines.push(`${muted(a.kpi.onDemandLabel.padEnd(10))} ${a.kpi.onDemandValue}`);
+  lines.push("");
+
+  lines.push(...formatAnalyticsLayers(a));
+
+  if (report.local.models.length) {
+    lines.push("");
+    lines.push(muted("Active models (local Cursor settings — not dollar spend)"));
+    for (const model of report.local.models.slice(0, 8)) {
+      lines.push(`  ${purple(model.label.padEnd(12))} ${model.modelName}`);
+    }
+    if (report.local.lastUsedModel) {
+      lines.push(`  ${muted("last used")}  ${report.local.lastUsedModel}`);
+    }
+  }
+
+  if (report.local.today) {
+    lines.push("");
+    lines.push(
+      `${muted("Today")}     tab ${formatNumber(report.local.today.tabAcceptedLines)} lines · composer ${formatNumber(report.local.today.composerAcceptedLines)} lines`
+    );
+  }
+
+  lines.push("");
+  lines.push(muted(report.constraint));
+
+  if (m.staleLimitBanner) {
+    lines.push("");
+    lines.push(
+      warn(
+        `⚠ Stale 100% banner — ${formatNumber(m.bonusRemaining)} bonus credits remain (pool ${formatNumber(m.poolRemaining)} left)`
+      )
+    );
+  }
+
+  const analyticsBox = box(lines, `Report · ${report.groupBy} · ${report.range}`);
+  return `${status}\n\n${analyticsBox}`;
 }
