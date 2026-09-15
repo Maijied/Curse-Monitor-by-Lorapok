@@ -1,0 +1,5 @@
+{
+  "name": "Curse Monitor",
+  "install": "npm ci\nnpm run build",
+  "chromeExecutablePath": "/usr/bin/google-chrome"
+}

@@ -1,5 +1,9 @@
 # Agent notes
 
+## Environment
+
+Cloud Agent bootstrap is `.cursor/environment.json`: `npm ci` then `npm run build`. Chrome is at `/usr/bin/google-chrome`. Prove the CLI with `npm test` and `npm run demo`; the marketing site is static files in `website/`.
+
 ## Pull request before merge
 
 Always **create a pull request before merging**. `main` is not a direct-push landing branch.
