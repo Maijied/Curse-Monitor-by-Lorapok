@@ -21,7 +21,7 @@ From the `curse-monitor` repo root:
 npm install && npm run build && npm link
 ```
 
-Confirm: `curse-monitor --help` → version `0.2.0`.
+Confirm: `curse-monitor --help` → version `0.3.0`.
 
 ## When to use
 
@@ -32,7 +32,7 @@ Run the CLI when the user asks about:
 - Auto %, API %, budget, on-demand charges
 - Billing cycle / days until reset
 - Grouped reports (model, Auto/API, Tab vs Composer)
-- Which Cursor account is active
+- Which Cursor account is active (and switching between product folders)
 
 ## How to run
 
@@ -42,6 +42,8 @@ Run the CLI when the user asks about:
 | Full report | `curse-monitor report --group-by autoApi --range 7d` |
 | Agents (parse) | `curse-monitor json` or `curse-monitor json --report` |
 | Live board | `curse-monitor watch --interval 30` |
+| Account list | `curse-monitor accounts` or `curse-monitor whoami --list` |
+| Switch account | `curse-monitor use <email\|index\|product>` |
 | Account source | `curse-monitor whoami` |
 
 Group-by: `model` | `autoApi` | `surface`  
@@ -49,7 +51,7 @@ Range: `7d` | `30d` | `cycle` | `mtd`
 
 **Constraint:** Cursor API does not expose per-model dollar spend. Model breakdown is local active-model / analytics grouping plus Auto/API meters.
 
-Auth is automatic from Cursor's local `state.vscdb`. Override with `--token` or `CURSOR_TOKEN` if needed.
+Auth is automatic from Cursor's local `state.vscdb` (all product folders). `accounts` / `use` select which login later commands read. Override with `--token` or `CURSOR_TOKEN` if needed. Default without a saved selection: prefer dCursor when `lorapokdev@gmail.com` is signed in.
 
 ## Safety
 

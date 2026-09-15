@@ -6,6 +6,7 @@ import { recordSnapshotHistory } from "../report.js";
 
 export interface GlobalOpts {
   token?: string;
+  /** One-shot account selector (email, 1-based index, or product). Does not persist. */
   account?: string;
 }
 

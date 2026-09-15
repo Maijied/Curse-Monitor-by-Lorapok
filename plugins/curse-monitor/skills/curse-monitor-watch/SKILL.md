@@ -17,6 +17,6 @@ curse-monitor watch --interval 30
 - Builds local Auto/API poll history used by `curse-monitor report`.
 - Stop with Ctrl+C.
 
-Related commands: `curse-monitor status`, `curse-monitor report`, `curse-monitor json`, `curse-monitor whoami`.
+Related commands: `curse-monitor status`, `curse-monitor report`, `curse-monitor json`, `curse-monitor whoami`, `curse-monitor accounts`, `curse-monitor use`.
 
 **Never** print the access token.

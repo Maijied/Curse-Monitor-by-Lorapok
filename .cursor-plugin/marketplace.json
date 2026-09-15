@@ -7,13 +7,13 @@
   },
   "metadata": {
     "description": "Curse Monitor by Lorapok Labs — CLI + agent plugin for Cursor usage",
-    "version": "0.2.0"
+    "version": "0.3.0"
   },
   "plugins": [
     {
       "name": "curse-monitor",
       "source": "./plugins/curse-monitor",
-      "description": "Live Cursor usage for agents — quotas, bonus credits, Auto/API %, reports, billing cycle."
+      "description": "Live Cursor usage for agents — quotas, bonus credits, Auto/API %, reports, multi-account switch, billing cycle."
     }
   ]
 }

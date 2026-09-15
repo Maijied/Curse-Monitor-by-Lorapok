@@ -1,25 +1,14 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import type { UsageHistoryPoint } from "./usageAnalytics.js";
+import { curseMonitorConfigDir } from "./userConfig.js";
 
 const MAX_POINTS = 400;
 const MIN_INTERVAL_MS = 60_000;
 
-function configDir(): string {
-  if (process.platform === "win32") {
-    return process.env.APPDATA
-      ? join(process.env.APPDATA, "curse-monitor")
-      : join(homedir(), "AppData", "Roaming", "curse-monitor");
-  }
-  const xdg = process.env.XDG_CONFIG_HOME;
-  if (xdg) return join(xdg, "curse-monitor");
-  return join(homedir(), ".config", "curse-monitor");
-}
-
 /** Local poll history (Auto/API meters only). Never stores tokens. */
 export function historyFilePath(): string {
-  return join(configDir(), "history.json");
+  return join(curseMonitorConfigDir(), "history.json");
 }
 
 export function loadHistory(): UsageHistoryPoint[] {

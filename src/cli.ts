@@ -5,6 +5,8 @@ import { registerWatch } from "./commands/watch.js";
 import { registerJson } from "./commands/json.js";
 import { registerWhoami } from "./commands/whoami.js";
 import { registerReport } from "./commands/report.js";
+import { registerAccounts } from "./commands/accounts.js";
+import { registerUse } from "./commands/use.js";
 import { MODEL_SPEND_CONSTRAINT } from "./usageAnalytics.js";
 import { VERSION } from "./version.js";
 
@@ -23,7 +25,7 @@ program
   .option("-t, --token <token>", "Cursor access token (or set CURSOR_TOKEN)")
   .option(
     "-a, --account <match>",
-    "Select a signed-in account by email or product folder (for multiple users)"
+    "One-shot account selector: email, 1-based index, or product folder"
   )
   .configureHelp({
     sortSubcommands: true,
@@ -39,8 +41,9 @@ Examples:
   $ curse-monitor watch --interval 30
   $ curse-monitor json --report -g autoApi -r 7d
   $ curse-monitor whoami
-  $ curse-monitor whoami                 List all signed-in accounts
-  $ curse-monitor status --account work  Pick an account by email/product
+  $ curse-monitor accounts
+  $ curse-monitor use dCursor
+  $ curse-monitor status --account lorapokdev@gmail.com
   $ CURSOR_TOKEN=… curse-monitor status
 
 Reports:
@@ -49,19 +52,27 @@ Reports:
   range:     7d | 30d | cycle | mtd
   ${MODEL_SPEND_CONSTRAINT}
 
+Accounts:
+  curse-monitor accounts               List discovered logins (never prints tokens)
+  curse-monitor use <email|index|product>
+  Selection is saved as an email + product pointer in
+  ~/.config/curse-monitor/config.json — not the access token.
+
 Auth:
-  Auto-reads cursorAuth/accessToken from Cursor state.vscdb across all
-  product folders (Cursor, dCursor, Cursor Nightly, Windsurf).
-  Pick one with --account; override with --token or CURSOR_TOKEN.
+  Priority: --token → CURSOR_TOKEN → --account → saved use selection →
+  default (prefer dCursor when lorapokdev@gmail.com is signed in) →
+  first discovered state.vscdb (Cursor, dCursor, Cursor Nightly, Windsurf, …).
   The token is never printed.
 `
   );
 
+registerAccounts(program);
 registerStatus(program);
 registerWatch(program);
 registerJson(program);
 registerWhoami(program);
 registerReport(program);
+registerUse(program);
 
 // Default action → status
 program.action(async (opts) => {

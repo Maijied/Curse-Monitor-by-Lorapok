@@ -1,8 +1,8 @@
 {
   "name": "curse-monitor",
   "displayName": "Curse Monitor",
-  "version": "0.2.0",
-  "description": "Live Cursor usage for agents — quotas, bonus credits, Auto/API %, reports (model/autoApi/surface), billing cycle. Lorapok Labs. Know your limits before they know you.",
+  "version": "0.3.0",
+  "description": "Live Cursor usage for agents — quotas, bonus credits, Auto/API %, reports, multi-account switch, billing cycle. Lorapok Labs. Know your limits before they know you.",
   "author": {
     "name": "Lorapok Labs",
     "email": "admin@lorapok.tech",

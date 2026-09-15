@@ -12,7 +12,7 @@
     <img alt="Node >=20" src="https://img.shields.io/badge/Node-%3E%3D20-339933?logo=node.js&logoColor=white" />
     <img alt="MIT License" src="https://img.shields.io/badge/License-MIT-6C5CE7" />
     <img alt="Lorapok Labs" src="https://img.shields.io/badge/Lorapok-Labs-39ff14?labelColor=1a1f28" />
-    <img alt="Version 0.2.0" src="https://img.shields.io/badge/version-0.2.0-a29bfe" />
+    <img alt="Version 0.3.0" src="https://img.shields.io/badge/version-0.3.0-a29bfe" />
   </p>
 </div>
 
@@ -45,13 +45,14 @@ Requirements: Node.js **20+** (Node **22+** recommended for built-in `node:sqlit
 ## CLI
 
 ```text
-curse-monitor                     # pretty status board (default)
+curse-monitor              # pretty status board (default)
 curse-monitor status
 curse-monitor report [--group-by autoApi] [--range 7d]
 curse-monitor watch [--interval 30]
 curse-monitor json [--report] [-g autoApi] [-r 7d]
-curse-monitor whoami              # list all signed-in accounts
-curse-monitor status --account work@co.com   # pick one of several accounts
+curse-monitor whoami [--list]
+curse-monitor accounts
+curse-monitor use <email|index|product>
 curse-monitor --help
 ```
 
@@ -60,7 +61,9 @@ curse-monitor --help
 | `status` | Human-facing boxed board |
 | `report` | Board + grouped breakdowns (`model` \| `autoApi` \| `surface`) |
 | `json` | Machine-readable snapshot; `--report` adds analytics |
-| `whoami` | List every signed-in Cursor account (email + details) and which one is active |
+| `whoami` | Which Cursor product folder / email will be used (`--list` = all) |
+| `accounts` | List discovered logins with an active marker (never prints tokens) |
+| `use` | Persist the active account by email, 1-based index, or product folder |
 | `watch` | Live refresh every N seconds (also records Auto/API poll history) |
 
 ### Report flags
@@ -72,44 +75,21 @@ curse-monitor --help
 
 `autoApi` uses Cursor usage-summary meters plus local poll history. `surface` uses local Tab/Composer daily stats. `model` lists locally active models — **not** per-model dollars (the API does not provide that).
 
-Every command accepts `-a, --account <match>` to select one of several signed-in
-accounts by email or product folder (case-insensitive substring).
-
 ### Auth
 
 | Source | Priority |
 |--------|----------|
 | `--token <token>` | 1 |
 | `CURSOR_TOKEN` env | 2 |
-| Cursor `state.vscdb` (`cursorAuth/accessToken`) | 3 |
+| `--account <email\|index\|product>` (one-shot) | 3 |
+| Saved `use` selection (`~/.config/curse-monitor/config.json`) | 4 |
+| Cursor `state.vscdb` (`cursorAuth/accessToken`) | 5 |
 
-The access token is **never** logged or written to JSON output.
+`accounts` scans each product folder (Cursor, dCursor, Cursor Nightly, Windsurf, and related IDEs) for `cursorAuth/accessToken` + `cursorAuth/cachedEmail`. `use` stores **only** the email and product folder — the token is re-read from that DB on every run. Tokens are **never** logged, written to JSON, or saved in `config.json`.
 
-#### Multiple accounts
+**Default** when `config.json` has no selection: prefer **dCursor** when `lorapokdev@gmail.com` is signed in (over `licences@shohoz.com` on Cursor); otherwise the first discovered product folder.
 
-`whoami` enumerates **every** signed-in account across those product folders
-(de-duplicating the same login mirrored into more than one folder) and shows
-each account's email, membership, and sign-up method — marking the active one:
-
-```text
-Curse Monitor — identity (2 accounts)
-─────────────────────────
-▶ active: alice@work.com
-    Product:    Cursor
-    Membership: pro
-        : bob@personal.dev
-    Product:    dCursor
-    Membership: free
-```
-
-When more than one account is present, the highest-priority folder is used by
-default. Target a specific one with `--account`, matched against email or
-product folder:
-
-```bash
-curse-monitor status --account bob        # by email substring
-curse-monitor json   --account dCursor    # by product folder
-```
+One-shot: `curse-monitor status --account dCursor`. Override: `--token` / `CURSOR_TOKEN`.
 
 ### Example status
 
@@ -138,6 +118,7 @@ See [PLUGIN_STORE.md](./PLUGIN_STORE.md) for the Cursor Marketplace submission c
 ```ts
 import {
   resolveAuth,
+  listAccounts,
   fetchSnapshot,
   buildUsageReport,
   formatReportBoard,
@@ -180,7 +161,8 @@ CI (`.github/workflows/ci.yml`) runs those checks on push/PR. Pages deploy on `m
 
 - All auth stays on your machine.
 - Network calls go only to `api2.cursor.sh` with your session token.
-- No telemetry, no credential vault files, no token echo.
+- No telemetry. `~/.config/curse-monitor/config.json` stores an email + product pointer only — never the access token.
+- No token echo in CLI, JSON, or help output.
 
 ## License
 

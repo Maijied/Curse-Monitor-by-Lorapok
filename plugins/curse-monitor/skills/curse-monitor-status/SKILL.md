@@ -28,6 +28,6 @@ Displays a boxed board with:
 - Billing cycle + days until reset
 - Stale 100% banner when API reports 100% but bonus credits remain
 
-For grouped breakdowns use `curse-monitor report`. For structured data use `curse-monitor json`. For account source use `curse-monitor whoami`.
+For grouped breakdowns use `curse-monitor report`. For structured data use `curse-monitor json`. For account source use `curse-monitor whoami`. To switch logins: `curse-monitor accounts` then `curse-monitor use <email|index|product>`.
 
 **Never** print the access token.

@@ -15,10 +15,10 @@ Layout follows [cursor/plugin-template](https://github.com/cursor/plugin-templat
 | Commands | `plugins/curse-monitor/commands/report.md` |
 | Plugin README | `plugins/curse-monitor/README.md` |
 | License | `plugins/curse-monitor/LICENSE` (MIT) |
-| Changelog | `plugins/curse-monitor/CHANGELOG.md` (0.2.0) |
+| Changelog | `plugins/curse-monitor/CHANGELOG.md` (0.3.0) |
 | Validator | `npm run validate-template` |
 
-Version **0.2.0** · Author **Lorapok Labs** · Homepage **https://curse.lorapok.tech**
+Version **0.3.0** · Author **Lorapok Labs** · Homepage **https://curse.lorapok.tech**
 
 ## Parent / user next steps
 
@@ -37,7 +37,7 @@ Version **0.2.0** · Author **Lorapok Labs** · Homepage **https://curse.lorapok
 - [ ] Logo committed and referenced with a relative path
 - [ ] `README.md` documents install + usage
 - [ ] Paths are relative (no `..`, no absolute paths)
-- [ ] Tested locally (`curse-monitor status|report|json|whoami|watch`)
+- [ ] Tested locally (`curse-monitor status|report|json|whoami|accounts|use|watch`)
 - [ ] Public Git repo URL ready for submission
 - [ ] `node scripts/validate-template.mjs` passes
 

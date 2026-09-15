@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 — 2026-09-15
+
+- Skills and command docs for `curse-monitor accounts` / `use` / `whoami --list`
+- Agents must never print tokens; selection is a local email + product pointer
+
 ## 0.2.0 — 2026-09-15
 
 - `curse-monitor report` human board with group-by (`model` | `autoApi` | `surface`) and ranges (`7d` | `30d` | `cycle` | `mtd`)

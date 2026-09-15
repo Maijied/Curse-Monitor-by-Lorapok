@@ -1,7 +1,7 @@
 {
   "name": "curse-monitor",
-  "version": "0.2.0",
-  "description": "Live Cursor usage for CLI + Grok Bot \u2014 quotas, bonus credits, Auto/API %, budget, and billing cycle. Companion to Cursor Curse Monitor by Lorapok Labs.",
+  "version": "0.3.0",
+  "description": "Live Cursor usage for CLI + Grok Bot \u2014 quotas, bonus credits, Auto/API %, budget, billing cycle, and multi-account switch. Companion to Cursor Curse Monitor by Lorapok Labs.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

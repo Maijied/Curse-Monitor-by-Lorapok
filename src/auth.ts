@@ -1,7 +1,11 @@
+import { existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { existsSync } from "node:fs";
 import { openDatabase, readItem, type SqliteDb } from "./sqlite.js";
+import {
+  loadAccountPreference,
+  type AccountPreference,
+} from "./userConfig.js";
 
 export interface CursorAuth {
   accessToken: string;
@@ -16,7 +20,7 @@ export interface CursorAuth {
   membershipType?: string;
 }
 
-/** A discovered Cursor account with its non-secret identity details. */
+/** Public account identity. Never includes an access token. */
 export interface CursorAccount {
   email?: string;
   productFolder: string;
@@ -26,19 +30,75 @@ export interface CursorAccount {
   tokenSource: "flag" | "env" | "state.vscdb";
 }
 
+export interface DiscoverOptions {
+  /** App-data roots to scan. Defaults to OS config dirs (or CURSE_MONITOR_DISCOVER_ROOT). */
+  roots?: string[];
+}
+
+export interface AccountList {
+  accounts: CursorAccount[];
+  /** 0-based index of the account that subsequent commands will use. */
+  activeIndex: number;
+  /** How the active account was chosen. */
+  selection:
+    | "flag"
+    | "env"
+    | "account-flag"
+    | "config"
+    | "preferred-default"
+    | "first";
+}
+
+export interface ResolveAuthOptions {
+  explicitToken?: string;
+  /** One-shot `--account <email|index|product>` match (does not write config). */
+  accountMatch?: string;
+  discoverRoots?: string[];
+  configPath?: string;
+  envToken?: string;
+}
+
 interface ProductCandidate {
   folder: string;
   relativeDb: string[];
 }
 
+/**
+ * Default when no `use` selection is saved: prefer the dCursor login whose
+ * cached email is lorapokdev@gmail.com (over licences@shohoz.com), else the
+ * first discovered product folder that has a token.
+ */
+export const PREFERRED_DEFAULT_EMAIL = "lorapokdev@gmail.com";
+export const PREFERRED_DEFAULT_PRODUCT = "dCursor";
+
 const PRODUCT_PRIORITY: ProductCandidate[] = [
   { folder: "Cursor", relativeDb: ["Cursor", "User", "globalStorage", "state.vscdb"] },
   { folder: "dCursor", relativeDb: ["dCursor", "User", "globalStorage", "state.vscdb"] },
-  { folder: "Cursor Nightly", relativeDb: ["Cursor Nightly", "User", "globalStorage", "state.vscdb"] },
+  {
+    folder: "Cursor Nightly",
+    relativeDb: ["Cursor Nightly", "User", "globalStorage", "state.vscdb"],
+  },
   { folder: "Windsurf", relativeDb: ["Windsurf", "User", "globalStorage", "state.vscdb"] },
+  {
+    folder: "Antigravity IDE",
+    relativeDb: ["Antigravity IDE", "User", "globalStorage", "state.vscdb"],
+  },
+  { folder: "Antigravity", relativeDb: ["Antigravity", "User", "globalStorage", "state.vscdb"] },
+  { folder: "AGY", relativeDb: ["AGY", "User", "globalStorage", "state.vscdb"] },
+  { folder: "Void", relativeDb: ["Void", "User", "globalStorage", "state.vscdb"] },
+  { folder: "Trae", relativeDb: ["Trae", "User", "globalStorage", "state.vscdb"] },
+  { folder: "Kiro", relativeDb: ["Kiro", "User", "globalStorage", "state.vscdb"] },
+  { folder: "Codex", relativeDb: ["Codex", "User", "globalStorage", "state.vscdb"] },
 ];
 
+interface InternalAccount extends CursorAccount {
+  accessToken: string;
+}
+
 function configRoots(): string[] {
+  const override = process.env.CURSE_MONITOR_DISCOVER_ROOT?.trim();
+  if (override) return [override];
+
   const home = homedir();
   const platform = process.platform;
   const roots: string[] = [];
@@ -57,11 +117,18 @@ function configRoots(): string[] {
   return roots;
 }
 
+function resolveRoots(options?: DiscoverOptions): string[] {
+  if (options?.roots?.length) return options.roots;
+  return configRoots();
+}
+
 /** Discover candidate state.vscdb paths in product priority order. */
-export function discoverStateDbPaths(): { folder: string; path: string }[] {
+export function discoverStateDbPaths(
+  options?: DiscoverOptions
+): { folder: string; path: string }[] {
   const found: { folder: string; path: string }[] = [];
   const seen = new Set<string>();
-  for (const root of configRoots()) {
+  for (const root of resolveRoots(options)) {
     for (const product of PRODUCT_PRIORITY) {
       const path = join(root, ...product.relativeDb);
       if (existsSync(path) && !seen.has(path)) {
@@ -94,7 +161,6 @@ interface AuthFields {
   membershipType?: string;
 }
 
-/** Read the non-secret identity fields (plus token) from one state DB. */
 function readAuthFields(db: SqliteDb): AuthFields {
   const email =
     unwrap(readItem(db, "cursorAuth/cachedEmail")) ||
@@ -116,34 +182,54 @@ function readAuthFields(db: SqliteDb): AuthFields {
   };
 }
 
+function toPublic(account: InternalAccount): CursorAccount {
+  return {
+    email: account.email,
+    productFolder: account.productFolder,
+    dbPath: account.dbPath,
+    signUpType: account.signUpType,
+    membershipType: account.membershipType,
+    tokenSource: account.tokenSource,
+  };
+}
+
+function readInternalAccount(folder: string, path: string): InternalAccount | undefined {
+  const db = openDatabase(path);
+  try {
+    const fields = readAuthFields(db);
+    if (!fields.accessToken) return undefined;
+    return {
+      accessToken: fields.accessToken,
+      email: fields.email,
+      productFolder: folder,
+      dbPath: path,
+      signUpType: fields.signUpType,
+      membershipType: fields.membershipType,
+      tokenSource: "state.vscdb",
+    };
+  } finally {
+    db.close?.();
+  }
+}
+
 /**
- * Discover every signed-in Cursor account across all product folders.
- * Accounts are returned in product priority order and de-duplicated by
- * access token (the same login mirrored into multiple folders appears once).
- * Never returns or logs the access token.
+ * Discover every signed-in Cursor account across product folders.
+ * Each product folder with a token is listed separately (local insights are per DB).
+ * Never returns the access token.
  */
-export function discoverAccounts(): CursorAccount[] {
-  const accounts: CursorAccount[] = [];
-  const seenTokens = new Set<string>();
-  for (const { folder, path } of discoverStateDbPaths()) {
+export function discoverAccounts(options?: DiscoverOptions): CursorAccount[] {
+  return discoverInternalAccounts(options).map(toPublic);
+}
+
+function discoverInternalAccounts(options?: DiscoverOptions): InternalAccount[] {
+  const accounts: InternalAccount[] = [];
+  const seenPaths = new Set<string>();
+  for (const { folder, path } of discoverStateDbPaths(options)) {
+    if (seenPaths.has(path)) continue;
+    seenPaths.add(path);
     try {
-      const db = openDatabase(path);
-      try {
-        const fields = readAuthFields(db);
-        if (!fields.accessToken) continue;
-        if (seenTokens.has(fields.accessToken)) continue;
-        seenTokens.add(fields.accessToken);
-        accounts.push({
-          email: fields.email,
-          productFolder: folder,
-          dbPath: path,
-          signUpType: fields.signUpType,
-          membershipType: fields.membershipType,
-          tokenSource: "state.vscdb",
-        });
-      } finally {
-        db.close?.();
-      }
+      const account = readInternalAccount(folder, path);
+      if (account) accounts.push(account);
     } catch {
       // Skip unreadable DBs; a later folder may still work.
     }
@@ -151,155 +237,260 @@ export function discoverAccounts(): CursorAccount[] {
   return accounts;
 }
 
-/** Case-insensitive match of an account by email or product folder substring. */
-function accountMatches(account: CursorAccount, match: string): boolean {
-  const needle = match.trim().toLowerCase();
-  if (!needle) return true;
-  return (
-    (account.email?.toLowerCase().includes(needle) ?? false) ||
-    account.productFolder.toLowerCase().includes(needle)
+function normalize(value: string | undefined): string {
+  return (value ?? "").trim().toLowerCase();
+}
+
+function emailsEqual(a: string | undefined, b: string | undefined): boolean {
+  const left = normalize(a);
+  const right = normalize(b);
+  return Boolean(left && right && left === right);
+}
+
+/**
+ * Prefer dCursor + lorapokdev@gmail.com when present; otherwise first discovered.
+ */
+export function pickDefaultAccount<T extends { email?: string; productFolder: string }>(
+  accounts: T[]
+): T {
+  if (accounts.length === 0) {
+    throw new Error("No Cursor accounts to select.");
+  }
+  const preferredEmail = accounts.filter((a) =>
+    emailsEqual(a.email, PREFERRED_DEFAULT_EMAIL)
+  );
+  if (preferredEmail.length) {
+    const onPreferredProduct = preferredEmail.find(
+      (a) => normalize(a.productFolder) === normalize(PREFERRED_DEFAULT_PRODUCT)
+    );
+    return onPreferredProduct ?? preferredEmail[0]!;
+  }
+  return accounts[0]!;
+}
+
+function availableLabel(accounts: { email?: string; productFolder: string }[]): string {
+  return accounts.map((a) => `${a.email ?? "(no email)"} [${a.productFolder}]`).join(", ");
+}
+
+function noAuthError(): Error {
+  return new Error(
+    "No Cursor auth found. Sign in to Cursor, or pass --token / set CURSOR_TOKEN.\n" +
+      "Looked for state.vscdb under Cursor, dCursor, Cursor Nightly, Windsurf, and related IDEs."
   );
 }
 
 /**
- * Resolve a Cursor access token.
- * Priority: explicit token arg → CURSOR_TOKEN env → discovered state.vscdb.
- * When multiple accounts are present, `accountMatch` selects one by email or
- * product folder; otherwise the highest-priority account is used.
- * Never logs the token.
+ * Match `use` / `--account` selector: 1-based index, email, or product folder.
  */
-export function resolveAuth(explicitToken?: string, accountMatch?: string): CursorAuth {
-  if (explicitToken?.trim()) {
-    return {
-      accessToken: explicitToken.trim(),
-      productFolder: "(flag)",
-      dbPath: "(none)",
-    };
+export function matchAccount<T extends { email?: string; productFolder: string }>(
+  accounts: T[],
+  selector: string
+): T {
+  const raw = selector.trim();
+  if (!raw) {
+    throw new Error("Account selector is empty. Pass an email, 1-based index, or product folder.");
   }
 
-  const envToken = process.env.CURSOR_TOKEN?.trim();
-  if (envToken) {
-    return {
-      accessToken: envToken,
-      productFolder: "(CURSOR_TOKEN)",
-      dbPath: "(none)",
-    };
+  if (/^\d+$/.test(raw)) {
+    const index = Number(raw) - 1;
+    if (!Number.isInteger(index) || index < 0 || index >= accounts.length) {
+      throw new Error(
+        `No account at index ${raw}. Available (1–${accounts.length}): ${availableLabel(accounts)}`
+      );
+    }
+    return accounts[index]!;
   }
 
-  const candidates = discoverStateDbPaths();
-  if (candidates.length === 0) {
+  const needle = raw.toLowerCase();
+  const exactEmail = accounts.filter((a) => normalize(a.email) === needle);
+  if (exactEmail.length === 1) return exactEmail[0]!;
+  if (exactEmail.length > 1) return pickDefaultAccount(exactEmail);
+
+  const exactProduct = accounts.filter((a) => normalize(a.productFolder) === needle);
+  if (exactProduct.length === 1) return exactProduct[0]!;
+  if (exactProduct.length > 1) return pickDefaultAccount(exactProduct);
+
+  const emailSub = accounts.filter((a) => normalize(a.email).includes(needle));
+  if (emailSub.length === 1) return emailSub[0]!;
+  if (emailSub.length > 1) {
     throw new Error(
-      "No Cursor auth found. Sign in to Cursor, or pass --token / set CURSOR_TOKEN.\n" +
-        "Looked for state.vscdb under Cursor, dCursor, Cursor Nightly, Windsurf."
+      `Selector "${raw}" matched multiple emails. Be more specific.\nAvailable: ${availableLabel(accounts)}`
     );
   }
 
-  const wanted = accountMatch?.trim();
-  let lastError: unknown;
-  let sawToken = false;
-  for (const { folder, path } of candidates) {
-    try {
-      const db = openDatabase(path);
-      try {
-        const fields = readAuthFields(db);
-        if (!fields.accessToken) continue;
-        sawToken = true;
-        const account: CursorAccount = {
-          email: fields.email,
-          productFolder: folder,
-          dbPath: path,
-          signUpType: fields.signUpType,
-          membershipType: fields.membershipType,
-          tokenSource: "state.vscdb",
-        };
-        if (wanted && !accountMatches(account, wanted)) continue;
-        return {
-          accessToken: fields.accessToken,
-          email: fields.email,
-          productFolder: folder,
-          dbPath: path,
-          signUpType: fields.signUpType,
-          membershipType: fields.membershipType,
-        };
-      } finally {
-        db.close?.();
-      }
-    } catch (err) {
-      lastError = err;
-    }
-  }
-
-  if (wanted && sawToken) {
-    const available = discoverAccounts()
-      .map((a) => `${a.email ?? "(no email)"} [${a.productFolder}]`)
-      .join(", ");
+  const productSub = accounts.filter((a) => normalize(a.productFolder).includes(needle));
+  if (productSub.length === 1) return productSub[0]!;
+  if (productSub.length > 1) {
     throw new Error(
-      `No signed-in Cursor account matched "${wanted}".` +
-        (available ? `\nAvailable accounts: ${available}` : "")
+      `Selector "${raw}" matched multiple product folders. Be more specific.\nAvailable: ${availableLabel(accounts)}`
     );
   }
 
   throw new Error(
-    `Found Cursor state DB(s) but could not read cursorAuth/accessToken.` +
-      (lastError instanceof Error ? `\n${lastError.message}` : "")
+    `No signed-in Cursor account matched "${raw}".\nAvailable accounts: ${availableLabel(accounts)}`
   );
+}
+
+function matchSavedPreference<T extends { email?: string; productFolder: string }>(
+  accounts: T[],
+  pref: AccountPreference
+): T | undefined {
+  const wantEmail = pref.activeEmail;
+  const wantFolder = pref.activeProductFolder;
+  if (!wantEmail && !wantFolder) return undefined;
+
+  const both = accounts.filter((a) => {
+    const emailOk = wantEmail ? emailsEqual(a.email, wantEmail) : true;
+    const folderOk = wantFolder ? normalize(a.productFolder) === normalize(wantFolder) : true;
+    return emailOk && folderOk;
+  });
+  if (both.length === 1) return both[0];
+  if (both.length > 1) return pickDefaultAccount(both);
+
+  if (wantEmail) {
+    const byEmail = accounts.filter((a) => emailsEqual(a.email, wantEmail));
+    if (byEmail.length === 1) return byEmail[0];
+    if (byEmail.length > 1) return pickDefaultAccount(byEmail);
+  }
+  if (wantFolder) {
+    const byFolder = accounts.filter((a) => normalize(a.productFolder) === normalize(wantFolder));
+    if (byFolder.length === 1) return byFolder[0];
+    if (byFolder.length > 1) return pickDefaultAccount(byFolder);
+  }
+  return undefined;
+}
+
+function overrideAccount(
+  source: "flag" | "env",
+  token: string,
+  productFolder: string
+): InternalAccount {
+  return {
+    accessToken: token,
+    productFolder,
+    dbPath: "(none)",
+    tokenSource: source,
+  };
+}
+
+function pickFromDiscovered(
+  accounts: InternalAccount[],
+  options: ResolveAuthOptions
+): { account: InternalAccount; selection: AccountList["selection"] } {
+  if (accounts.length === 0) throw noAuthError();
+
+  const wanted = options.accountMatch?.trim();
+  if (wanted) {
+    return { account: matchAccount(accounts, wanted), selection: "account-flag" };
+  }
+
+  const pref = loadAccountPreference(options.configPath);
+  const fromConfig = matchSavedPreference(accounts, pref);
+  if (fromConfig) return { account: fromConfig, selection: "config" };
+
+  const picked = pickDefaultAccount(accounts);
+  const isPreferred =
+    emailsEqual(picked.email, PREFERRED_DEFAULT_EMAIL) ||
+    normalize(picked.productFolder) === normalize(PREFERRED_DEFAULT_PRODUCT);
+  return {
+    account: picked,
+    selection: isPreferred && emailsEqual(picked.email, PREFERRED_DEFAULT_EMAIL)
+      ? "preferred-default"
+      : "first",
+  };
+}
+
+function resolveInternal(options: ResolveAuthOptions = {}): {
+  account: InternalAccount;
+  selection: AccountList["selection"];
+} {
+  const explicit = options.explicitToken?.trim();
+  if (explicit) {
+    return { account: overrideAccount("flag", explicit, "(flag)"), selection: "flag" };
+  }
+
+  const envToken = (options.envToken ?? process.env.CURSOR_TOKEN)?.trim();
+  if (envToken) {
+    return {
+      account: overrideAccount("env", envToken, "(CURSOR_TOKEN)"),
+      selection: "env",
+    };
+  }
+
+  const accounts = discoverInternalAccounts(
+    options.discoverRoots ? { roots: options.discoverRoots } : undefined
+  );
+  return pickFromDiscovered(accounts, options);
+}
+
+/**
+ * Resolve a Cursor access token.
+ * Priority: `--token` → `CURSOR_TOKEN` → `--account` → saved `use` config →
+ * preferred default (lorapokdev@gmail.com on dCursor) → first discovered DB.
+ * Never logs the token. Re-reads the token from the chosen state.vscdb each run.
+ */
+export function resolveAuth(explicitToken?: string, accountMatch?: string): CursorAuth {
+  return resolveAuthWithOptions({ explicitToken, accountMatch });
+}
+
+export function resolveAuthWithOptions(options: ResolveAuthOptions = {}): CursorAuth {
+  const { account } = resolveInternal(options);
+  return {
+    accessToken: account.accessToken,
+    email: account.email,
+    productFolder: account.productFolder,
+    dbPath: account.dbPath,
+    signUpType: account.signUpType,
+    membershipType: account.membershipType,
+  };
 }
 
 /** Public account identity (never includes the token). */
 export function whoami(explicitToken?: string, accountMatch?: string): CursorAccount {
-  const auth = resolveAuth(explicitToken, accountMatch);
-  let tokenSource: "flag" | "env" | "state.vscdb" = "state.vscdb";
-  if (auth.productFolder === "(flag)") tokenSource = "flag";
-  else if (auth.productFolder === "(CURSOR_TOKEN)") tokenSource = "env";
+  return whoamiWithOptions({ explicitToken, accountMatch });
+}
 
-  return {
-    email: auth.email,
-    productFolder: auth.productFolder,
-    dbPath: auth.dbPath,
-    signUpType: auth.signUpType,
-    membershipType: auth.membershipType,
-    tokenSource,
-  };
+export function whoamiWithOptions(options: ResolveAuthOptions = {}): CursorAccount {
+  return toPublic(resolveInternal(options).account);
 }
 
 /**
- * List every resolvable Cursor account and flag the one that would be used.
- * With an explicit `--token`/`CURSOR_TOKEN`, that single override is returned.
- * Otherwise every signed-in product folder is enumerated so callers can
- * support multiple users; `accountMatch` marks which one is active.
+ * List discovered accounts and mark the one subsequent commands will use.
+ * `--token` / `CURSOR_TOKEN` collapse the list to that override.
  */
+export function listAccounts(options: ResolveAuthOptions = {}): AccountList {
+  const explicit = options.explicitToken?.trim();
+  if (explicit) {
+    const account = toPublic(overrideAccount("flag", explicit, "(flag)"));
+    return { accounts: [account], activeIndex: 0, selection: "flag" };
+  }
+  const envToken = (options.envToken ?? process.env.CURSOR_TOKEN)?.trim();
+  if (envToken) {
+    const account = toPublic(overrideAccount("env", envToken, "(CURSOR_TOKEN)"));
+    return { accounts: [account], activeIndex: 0, selection: "env" };
+  }
+
+  const internals = discoverInternalAccounts(
+    options.discoverRoots ? { roots: options.discoverRoots } : undefined
+  );
+  if (internals.length === 0) throw noAuthError();
+
+  const { account, selection } = pickFromDiscovered(internals, options);
+  const activeIndex = internals.findIndex(
+    (entry) => entry.dbPath === account.dbPath && entry.productFolder === account.productFolder
+  );
+  return {
+    accounts: internals.map(toPublic),
+    activeIndex: activeIndex >= 0 ? activeIndex : 0,
+    selection,
+  };
+}
+
+/** @deprecated Use listAccounts. Kept for callers that used whoamiAll. */
 export function whoamiAll(
   explicitToken?: string,
   accountMatch?: string
 ): { accounts: CursorAccount[]; activeIndex: number } {
-  if (explicitToken?.trim()) {
-    return { accounts: [whoami(explicitToken, accountMatch)], activeIndex: 0 };
-  }
-  if (process.env.CURSOR_TOKEN?.trim()) {
-    return { accounts: [whoami(undefined, accountMatch)], activeIndex: 0 };
-  }
-
-  const accounts = discoverAccounts();
-  if (accounts.length === 0) {
-    throw new Error(
-      "No Cursor auth found. Sign in to Cursor, or pass --token / set CURSOR_TOKEN.\n" +
-        "Looked for state.vscdb under Cursor, dCursor, Cursor Nightly, Windsurf."
-    );
-  }
-
-  const wanted = accountMatch?.trim();
-  let activeIndex = 0;
-  if (wanted) {
-    const idx = accounts.findIndex((a) => accountMatches(a, wanted));
-    if (idx === -1) {
-      const available = accounts
-        .map((a) => `${a.email ?? "(no email)"} [${a.productFolder}]`)
-        .join(", ");
-      throw new Error(
-        `No signed-in Cursor account matched "${wanted}".\nAvailable accounts: ${available}`
-      );
-    }
-    activeIndex = idx;
-  }
-  return { accounts, activeIndex };
+  const listed = listAccounts({ explicitToken, accountMatch });
+  return { accounts: listed.accounts, activeIndex: listed.activeIndex };
 }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- seo:begin -->
   <title>Docs — Curse Monitor CLI &amp; plugin | Lorapok</title>
-  <meta name="description" content="CLI reference for status, report, watch, json, whoami. Plugin install and auth notes." />
+  <meta name="description" content="CLI reference for status, report, watch, json, whoami, accounts, use. Plugin install and auth notes." />
   <link rel="canonical" href="https://curse.lorapok.tech/docs.html" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://curse.lorapok.tech/docs.html" />
@@ -44,7 +44,7 @@
   <main>
     <section>
       <div class="container">
-        <div class="eyebrow">Documentation · v0.2.0</div>
+        <div class="eyebrow">Documentation · v0.3.0</div>
         <h1 class="section-title">CLI reference &amp; plugin</h1>
         <p class="section-lead">Commands, auth order, grouped reports, and how to point Grok Bot / Cursor agents at the plugin package.</p>
 
@@ -55,6 +55,7 @@
               <li><a href="#install">Install</a></li>
               <li><a href="#commands">Commands</a></li>
               <li><a href="#report">Reports</a></li>
+              <li><a href="#accounts">Accounts</a></li>
               <li><a href="#auth">Auth</a></li>
               <li><a href="#plugin">Plugin</a></li>
               <li><a href="#metrics">Metrics</a></li>
@@ -83,7 +84,9 @@ curse-monitor status
 curse-monitor report [--group-by autoApi] [--range 7d]
 curse-monitor watch [--interval 30]
 curse-monitor json [--report] [-g autoApi] [-r 7d]
-curse-monitor whoami
+curse-monitor whoami [--list]
+curse-monitor accounts
+curse-monitor use &lt;email|index|product&gt;
 curse-monitor --help</code></pre>
               <table>
                 <thead>
@@ -93,7 +96,9 @@ curse-monitor --help</code></pre>
                   <tr><td><code>status</code></td><td>Human-facing boxed board</td></tr>
                   <tr><td><code>report</code></td><td>Board plus grouped breakdowns</td></tr>
                   <tr><td><code>json</code></td><td>Machine-readable snapshot; <code>--report</code> adds analytics</td></tr>
-                  <tr><td><code>whoami</code></td><td>Which Cursor product folder / email will be used</td></tr>
+                  <tr><td><code>whoami</code></td><td>Which Cursor product folder / email will be used (<code>--list</code> = all)</td></tr>
+                  <tr><td><code>accounts</code></td><td>List discovered logins with an active marker (never prints tokens)</td></tr>
+                  <tr><td><code>use</code></td><td>Persist the active account by email, 1-based index, or product folder</td></tr>
                   <tr><td><code>watch</code></td><td>Live refresh every N seconds (default 30)</td></tr>
                 </tbody>
               </table>
@@ -117,6 +122,17 @@ curse-monitor --help</code></pre>
               </table>
             </article>
 
+            <article class="doc-block" id="accounts">
+              <h2>Accounts</h2>
+              <p style="color: var(--muted);"><code>accounts</code> discovers each product folder’s <code>state.vscdb</code> (<code>cursorAuth/accessToken</code> + cached email). <code>use</code> saves an email + product pointer to <code>~/.config/curse-monitor/config.json</code> — never the token.</p>
+              <pre class="code-block"><code>curse-monitor accounts
+curse-monitor use 1
+curse-monitor use lorapokdev@gmail.com
+curse-monitor use dCursor
+curse-monitor status --account Cursor</code></pre>
+              <p class="note"><strong>Default</strong> when nothing is saved: prefer <strong>dCursor</strong> when <code>lorapokdev@gmail.com</code> is signed in; otherwise the first discovered product folder. <code>--token</code> / <code>CURSOR_TOKEN</code> still override.</p>
+            </article>
+
             <article class="doc-block" id="auth">
               <h2>Auth</h2>
               <table>
@@ -126,7 +142,9 @@ curse-monitor --help</code></pre>
                 <tbody>
                   <tr><td><code>--token &lt;token&gt;</code></td><td>1</td></tr>
                   <tr><td><code>CURSOR_TOKEN</code> env</td><td>2</td></tr>
-                  <tr><td>Cursor <code>state.vscdb</code> (<code>cursorAuth/accessToken</code>)</td><td>3</td></tr>
+                  <tr><td><code>--account</code> one-shot selector</td><td>3</td></tr>
+                  <tr><td>Saved <code>use</code> pointer in <code>config.json</code></td><td>4</td></tr>
+                  <tr><td>Cursor <code>state.vscdb</code> (<code>cursorAuth/accessToken</code>)</td><td>5</td></tr>
                 </tbody>
               </table>
               <p>The access token is <strong>never</strong> logged or written to JSON output. See <a href="/privacy.html">Privacy</a>.</p>

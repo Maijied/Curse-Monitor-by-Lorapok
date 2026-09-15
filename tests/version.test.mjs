@@ -8,6 +8,6 @@ const pkg = JSON.parse(
   readFileSync(join(dirname(fileURLToPath(import.meta.url)), "..", "package.json"), "utf8")
 );
 assert.equal(VERSION, pkg.version);
-assert.equal(pkg.version, "0.2.0");
+assert.equal(pkg.version, "0.3.0");
 
 console.log("version.test.mjs: OK");

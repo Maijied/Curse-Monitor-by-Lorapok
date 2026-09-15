@@ -41,7 +41,7 @@ pages:
     file: docs.html
     path: /docs.html
     title: "Docs — Curse Monitor CLI & plugin | Lorapok"
-    description: CLI reference for status, report, watch, json, whoami. Plugin install and auth notes.
+    description: CLI reference for status, report, watch, json, whoami, accounts, use. Plugin install and auth notes.
     changefreq: weekly
     priority: "0.8"
     ogTitle: Docs — Curse Monitor
@@ -111,7 +111,7 @@ structuredData:
       name: Curse Monitor
       applicationCategory: DeveloperApplication
       operatingSystem: Windows, macOS, Linux
-      featureList: CLI status board, grouped reports, JSON for agents, Grok Bot plugin
+      featureList: CLI status board, grouped reports, JSON for agents, multi-account switch, Grok Bot plugin
       downloadUrl: "https://github.com/Maijied/Curse-Monitor-by-Lorapok"
       publisher: organization
 

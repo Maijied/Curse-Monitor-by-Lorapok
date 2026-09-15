@@ -53,7 +53,8 @@
           <li><strong>Nothing from the CLI.</strong> No telemetry, analytics, or crash phones-home.</li>
           <li><strong>No credential vault files</strong> written by Curse Monitor.</li>
           <li>Network calls go only to <code>api2.cursor.sh</code> (usage summary + Stripe profile) using your session Bearer token.</li>
-          <li>Optional local poll history (<code>~/.config/curse-monitor/history.json</code> or OS equivalent) stores Auto/API percentages only — never tokens.</li>
+          <li>Optional local poll history (<code>~/.config/curse-monitor/history.json</code>) stores Auto/API percentages only — never tokens.</li>
+          <li>Optional account pointer (<code>~/.config/curse-monitor/config.json</code>) stores email + product folder only — never access tokens. Tokens are re-read from the chosen <code>state.vscdb</code>.</li>
           <li>Local insights (active models, daily Tab/Composer line stats, session titles) stay on disk inside Cursor’s own DB. We do not read chat bodies.</li>
         </ul>
 

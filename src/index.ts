@@ -1,12 +1,29 @@
 export {
   resolveAuth,
+  resolveAuthWithOptions,
   whoami,
+  whoamiWithOptions,
   whoamiAll,
+  listAccounts,
   discoverAccounts,
   discoverStateDbPaths,
+  matchAccount,
+  pickDefaultAccount,
+  PREFERRED_DEFAULT_EMAIL,
+  PREFERRED_DEFAULT_PRODUCT,
   type CursorAuth,
   type CursorAccount,
+  type AccountList,
+  type ResolveAuthOptions,
+  type DiscoverOptions,
 } from "./auth.js";
+export {
+  curseMonitorConfigDir,
+  configFilePath,
+  loadAccountPreference,
+  saveAccountPreference,
+  type AccountPreference,
+} from "./userConfig.js";
 export {
   fetchUsageSummary,
   fetchStripeProfile,

@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-15T03:03:17.201Z",
+  "generatedAt": "2026-09-15T04:47:38.933Z",
   "source": "website/seo.yml",
   "siteBase": "https://curse.lorapok.tech",
   "title": "Curse Monitor by Lorapok — Know your limits before they know you",
   "description": "Live Cursor usage for CLI + Grok Bot: quotas, bonus credits, Auto/API %, grouped reports, and billing cycle. Companion to Cursor Curse Monitor. Local-first auth. Not the VS Code extension.",
-  "version": "0.2.0",
-  "packageVersion": "0.2.0",
+  "version": "0.3.0",
+  "packageVersion": "0.3.0",
   "canonical": "https://curse.lorapok.tech/",
   "openGraph": {
     "type": "website",
@@ -31,7 +31,7 @@
     },
     "docs": {
       "title": "Docs — Curse Monitor CLI & plugin | Lorapok",
-      "description": "CLI reference for status, report, watch, json, whoami. Plugin install and auth notes.",
+      "description": "CLI reference for status, report, watch, json, whoami, accounts, use. Plugin install and auth notes.",
       "canonical": "https://curse.lorapok.tech/docs.html",
       "ogTitle": "Docs — Curse Monitor",
       "ogDescription": "CLI reference + Cursor agent plugin install."
@@ -99,9 +99,9 @@
         },
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Windows, macOS, Linux",
-        "featureList": "CLI status board, grouped reports, JSON for agents, Grok Bot plugin",
+        "featureList": "CLI status board, grouped reports, JSON for agents, multi-account switch, Grok Bot plugin",
         "downloadUrl": "https://github.com/Maijied/Curse-Monitor-by-Lorapok",
-        "softwareVersion": "0.2.0",
+        "softwareVersion": "0.3.0",
         "offers": {
           "@type": "Offer",
           "price": "0",

@@ -25,4 +25,4 @@ Includes:
 
 **Constraint:** Cursor API does not expose per-model dollar spend. Model grouping uses locally active models plus Auto/API meters — never invent per-model USD.
 
-**Never** print the access token.
+**Never** print the access token. Honors the account selected by `curse-monitor use` (or `--account` / `--token` / `CURSOR_TOKEN`).

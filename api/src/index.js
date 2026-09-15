@@ -6,7 +6,7 @@
  * the same way sibling admin uses wrangler service bindings.
  */
 const PRODUCT = "curse-monitor";
-const VERSION = "0.2.0";
+const VERSION = "0.3.0";
 const CONSTRAINT =
   "Cursor API does not expose per-model dollar spend. Model breakdown is local active-model / analytics grouping plus Auto/API meters.";
 
