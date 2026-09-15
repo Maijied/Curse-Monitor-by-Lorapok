@@ -1,3 +1,5 @@
+import { USER_AGENT } from "./version.js";
+
 const API_BASE = "https://api2.cursor.sh";
 
 export interface UsagePlanBreakdown {
@@ -139,7 +141,7 @@ async function cursorFetch<T>(path: string, token: string): Promise<T> {
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/json",
-      "User-Agent": "curse-monitor/0.1.1",
+      "User-Agent": USER_AGENT,
     },
   });
 
@@ -414,6 +416,8 @@ export interface UsageSnapshot {
   fetchedAt: string;
   email?: string;
   productFolder?: string;
+  /** Absolute path to state.vscdb when auth came from a local Cursor DB. */
+  dbPath?: string;
   summary: UsageSummary;
   stripe: StripeProfile | null;
   metrics: BudgetMetrics;
@@ -421,17 +425,20 @@ export interface UsageSnapshot {
 
 export async function fetchSnapshot(
   token: string,
-  opts?: { email?: string; productFolder?: string }
+  opts?: { email?: string; productFolder?: string; dbPath?: string }
 ): Promise<UsageSnapshot> {
   const [summary, stripe] = await Promise.all([
     fetchUsageSummary(token),
     fetchStripeProfile(token).catch(() => null),
   ]);
   const metrics = buildBudgetMetrics(summary, stripe, opts?.email);
+  const dbPath =
+    opts?.dbPath && opts.dbPath !== "(none)" ? opts.dbPath : undefined;
   return {
     fetchedAt: new Date().toISOString(),
     email: opts?.email ?? metrics.email,
     productFolder: opts?.productFolder,
+    dbPath,
     summary,
     stripe,
     metrics,

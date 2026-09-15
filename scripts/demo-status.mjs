@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { buildBudgetMetrics } from "../dist/api.js";
 import { formatStatusBoard } from "../dist/format.js";
+import { VERSION } from "../dist/version.js";
 
 const summary = {
   billingCycleStart: "2026-08-15T12:01:00.000Z",
@@ -43,6 +44,6 @@ const snapshot = {
   metrics,
 };
 
-console.log("\n  Curse Monitor demo  ·  Lorapok Labs  ·  v0.1.2\n");
+console.log(`\n  Curse Monitor demo  ·  Lorapok Labs  ·  v${VERSION}\n`);
 console.log(formatStatusBoard(snapshot));
 console.log("\n  (Demo fixture — mirrors live pool math: bonus credits remain)\n");

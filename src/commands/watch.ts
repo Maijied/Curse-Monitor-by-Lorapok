@@ -1,8 +1,7 @@
 import type { Command } from "commander";
-import { resolveAuth } from "../auth.js";
-import { fetchSnapshot } from "../api.js";
 import { formatStatusBoard } from "../format.js";
 import type { GlobalOpts } from "./status.js";
+import { loadSnapshot } from "./status.js";
 
 function clearScreen(): void {
   process.stdout.write("\x1b[2J\x1b[H");
@@ -10,14 +9,10 @@ function clearScreen(): void {
 
 export async function runWatch(opts: GlobalOpts & { interval?: string }): Promise<void> {
   const seconds = Math.max(5, Number(opts.interval ?? 30) || 30);
-  const auth = resolveAuth(opts.token);
-
+  // Resolve auth once; each tick still records history via loadSnapshot.
   const tick = async () => {
     try {
-      const snapshot = await fetchSnapshot(auth.accessToken, {
-        email: auth.email,
-        productFolder: auth.productFolder,
-      });
+      const { snapshot } = await loadSnapshot(opts);
       clearScreen();
       console.log(formatStatusBoard(snapshot));
       console.log(`\n  Refreshing every ${seconds}s · Ctrl+C to exit · ${new Date().toLocaleTimeString()}\n`);

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/wrangler.json",
+  "name": "curse-monitor-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": false },
+  "vars": {
+    "PRODUCT": "curse-monitor",
+    "STATUS": "stub",
+    "MISSION_CONTROL": "https://cursor-dev.lorapok.tech"
+  }
+}

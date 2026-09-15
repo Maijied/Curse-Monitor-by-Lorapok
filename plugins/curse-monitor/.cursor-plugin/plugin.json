@@ -1,14 +1,14 @@
 {
   "name": "curse-monitor",
   "displayName": "Curse Monitor",
-  "version": "0.1.3",
-  "description": "Live Cursor usage for agents \u2014 quotas, bonus credits, Auto/API %, billing cycle. Lorapok Labs. Know your limits before they know you.",
+  "version": "0.2.0",
+  "description": "Live Cursor usage for agents — quotas, bonus credits, Auto/API %, reports (model/autoApi/surface), billing cycle. Lorapok Labs. Know your limits before they know you.",
   "author": {
     "name": "Lorapok Labs",
     "email": "admin@lorapok.tech",
     "url": "https://lorapok.tech"
   },
-  "homepage": "https://curse-monitor.pages.dev",
+  "homepage": "https://curse.lorapok.tech",
   "license": "MIT",
   "keywords": [
     "cursor",
@@ -16,9 +16,10 @@
     "quota",
     "billing",
     "cli",
+    "report",
     "grok-bot",
     "lorapok"
   ],
-  "logo": "assets/logo.svg",
+  "logo": "assets/logo-animated.svg",
   "repository": "https://github.com/Maijied/Curse-Monitor-by-Lorapok"
 }

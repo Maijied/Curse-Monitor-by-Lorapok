@@ -1,7 +1,7 @@
 {
   "name": "Curse Monitor by Lorapok",
   "short_name": "Curse Monitor",
-  "description": "Live Cursor usage for CLI + Grok Bot — quotas, bonus credits, Auto/API %, billing cycle.",
+  "description": "Live Cursor usage for CLI + Grok Bot — quotas, bonus credits, Auto/API %, billing cycle, grouped reports.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0b0e14",

@@ -1,9 +1,9 @@
 ---
 name: curse-monitor
 description: >-
-  Monitor Cursor usage, quotas, bonus credits, Auto/API %, budget, billing cycle,
-  and on-demand spend via the curse-monitor CLI. Use when the user asks about
-  Cursor limits, remaining quota, usage, membership, or billing reset. Companion
+  Monitor Cursor usage, quotas, bonus credits, Auto/API %, reports (model/autoApi/surface),
+  budget, billing cycle, and on-demand spend via the curse-monitor CLI. Use when the user
+  asks about Cursor limits, remaining quota, usage, membership, or billing reset. Companion
   to Cursor Curse Monitor by Lorapok Labs (CLI + Grok Bot plugin, not the VS Code extension).
 ---
 
@@ -21,7 +21,7 @@ From the `curse-monitor` repo root:
 npm install && npm run build && npm link
 ```
 
-Confirm: `curse-monitor --help` → version `0.1.2`.
+Confirm: `curse-monitor --help` → version `0.2.0`.
 
 ## When to use
 
@@ -31,6 +31,7 @@ Run the CLI when the user asks about:
 - Bonus / agent credits and combined pool
 - Auto %, API %, budget, on-demand charges
 - Billing cycle / days until reset
+- Grouped reports (model, Auto/API, Tab vs Composer)
 - Which Cursor account is active
 
 ## How to run
@@ -38,19 +39,26 @@ Run the CLI when the user asks about:
 | Audience | Command |
 |----------|---------|
 | Humans | `curse-monitor status` |
-| Agents (parse) | `curse-monitor json` |
+| Full report | `curse-monitor report --group-by autoApi --range 7d` |
+| Agents (parse) | `curse-monitor json` or `curse-monitor json --report` |
 | Live board | `curse-monitor watch --interval 30` |
 | Account source | `curse-monitor whoami` |
+
+Group-by: `model` | `autoApi` | `surface`  
+Range: `7d` | `30d` | `cycle` | `mtd`
+
+**Constraint:** Cursor API does not expose per-model dollar spend. Model breakdown is local active-model / analytics grouping plus Auto/API meters.
 
 Auth is automatic from Cursor's local `state.vscdb`. Override with `--token` or `CURSOR_TOKEN` if needed.
 
 ## Safety
 
 - **Never** print, log, or store the access token.
-- Prefer `json` for agent reasoning; show `status` output to humans.
+- Prefer `json` / `json --report` for agent reasoning; show `status` / `report` to humans.
 - If auth fails, tell the user to sign in to Cursor or set `CURSOR_TOKEN` — do not invent usage numbers.
 
 ## Links
 
+- Product site: https://curse.lorapok.tech
 - Sibling product: https://cursor.lorapok.tech
 - Lorapok Labs: https://lorapok.tech
