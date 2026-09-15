@@ -1,4 +1,12 @@
-export { resolveAuth, whoami, discoverStateDbPaths, type CursorAuth } from "./auth.js";
+export {
+  resolveAuth,
+  whoami,
+  whoamiAll,
+  discoverAccounts,
+  discoverStateDbPaths,
+  type CursorAuth,
+  type CursorAccount,
+} from "./auth.js";
 export {
   fetchUsageSummary,
   fetchStripeProfile,

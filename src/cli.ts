@@ -21,6 +21,10 @@ program
   )
   .version(VERSION)
   .option("-t, --token <token>", "Cursor access token (or set CURSOR_TOKEN)")
+  .option(
+    "-a, --account <match>",
+    "Select a signed-in account by email or product folder (for multiple users)"
+  )
   .configureHelp({
     sortSubcommands: true,
     showGlobalOptions: true,
@@ -35,6 +39,8 @@ Examples:
   $ curse-monitor watch --interval 30
   $ curse-monitor json --report -g autoApi -r 7d
   $ curse-monitor whoami
+  $ curse-monitor whoami                 List all signed-in accounts
+  $ curse-monitor status --account work  Pick an account by email/product
   $ CURSOR_TOKEN=… curse-monitor status
 
 Reports:
@@ -44,8 +50,10 @@ Reports:
   ${MODEL_SPEND_CONSTRAINT}
 
 Auth:
-  Auto-reads cursorAuth/accessToken from Cursor state.vscdb.
-  Override with --token or CURSOR_TOKEN. The token is never printed.
+  Auto-reads cursorAuth/accessToken from Cursor state.vscdb across all
+  product folders (Cursor, dCursor, Cursor Nightly, Windsurf).
+  Pick one with --account; override with --token or CURSOR_TOKEN.
+  The token is never printed.
 `
   );
 

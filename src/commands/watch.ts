@@ -9,7 +9,7 @@ function clearScreen(): void {
 
 export async function runWatch(opts: GlobalOpts & { interval?: string }): Promise<void> {
   const seconds = Math.max(5, Number(opts.interval ?? 30) || 30);
-  // Resolve auth once; each tick still records history via loadSnapshot.
+  // Auth (and any --account selection) is resolved via loadSnapshot on each tick.
   const tick = async () => {
     try {
       const { snapshot } = await loadSnapshot(opts);

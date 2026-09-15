@@ -6,10 +6,11 @@ import { recordSnapshotHistory } from "../report.js";
 
 export interface GlobalOpts {
   token?: string;
+  account?: string;
 }
 
 export async function loadSnapshot(opts: GlobalOpts) {
-  const auth = resolveAuth(opts.token);
+  const auth = resolveAuth(opts.token, opts.account);
   const snapshot = await fetchSnapshot(auth.accessToken, {
     email: auth.email,
     productFolder: auth.productFolder,

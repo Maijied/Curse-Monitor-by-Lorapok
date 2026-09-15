@@ -13,11 +13,15 @@ function publicAuth(auth: {
   email?: string;
   productFolder: string;
   dbPath: string;
+  signUpType?: string;
+  membershipType?: string;
 }) {
   return {
     email: auth.email,
     productFolder: auth.productFolder,
     dbPath: auth.dbPath,
+    signUpType: auth.signUpType,
+    membershipType: auth.membershipType,
   };
 }
 

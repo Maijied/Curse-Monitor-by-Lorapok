@@ -45,12 +45,13 @@ Requirements: Node.js **20+** (Node **22+** recommended for built-in `node:sqlit
 ## CLI
 
 ```text
-curse-monitor              # pretty status board (default)
+curse-monitor                     # pretty status board (default)
 curse-monitor status
 curse-monitor report [--group-by autoApi] [--range 7d]
 curse-monitor watch [--interval 30]
 curse-monitor json [--report] [-g autoApi] [-r 7d]
-curse-monitor whoami
+curse-monitor whoami              # list all signed-in accounts
+curse-monitor status --account work@co.com   # pick one of several accounts
 curse-monitor --help
 ```
 
@@ -59,7 +60,7 @@ curse-monitor --help
 | `status` | Human-facing boxed board |
 | `report` | Board + grouped breakdowns (`model` \| `autoApi` \| `surface`) |
 | `json` | Machine-readable snapshot; `--report` adds analytics |
-| `whoami` | Which Cursor product folder / email will be used |
+| `whoami` | List every signed-in Cursor account (email + details) and which one is active |
 | `watch` | Live refresh every N seconds (also records Auto/API poll history) |
 
 ### Report flags
@@ -71,6 +72,9 @@ curse-monitor --help
 
 `autoApi` uses Cursor usage-summary meters plus local poll history. `surface` uses local Tab/Composer daily stats. `model` lists locally active models — **not** per-model dollars (the API does not provide that).
 
+Every command accepts `-a, --account <match>` to select one of several signed-in
+accounts by email or product folder (case-insensitive substring).
+
 ### Auth
 
 | Source | Priority |
@@ -80,6 +84,32 @@ curse-monitor --help
 | Cursor `state.vscdb` (`cursorAuth/accessToken`) | 3 |
 
 The access token is **never** logged or written to JSON output.
+
+#### Multiple accounts
+
+`whoami` enumerates **every** signed-in account across those product folders
+(de-duplicating the same login mirrored into more than one folder) and shows
+each account's email, membership, and sign-up method — marking the active one:
+
+```text
+Curse Monitor — identity (2 accounts)
+─────────────────────────
+▶ active: alice@work.com
+    Product:    Cursor
+    Membership: pro
+        : bob@personal.dev
+    Product:    dCursor
+    Membership: free
+```
+
+When more than one account is present, the highest-priority folder is used by
+default. Target a specific one with `--account`, matched against email or
+product folder:
+
+```bash
+curse-monitor status --account bob        # by email substring
+curse-monitor json   --account dCursor    # by product folder
+```
 
 ### Example status
 
