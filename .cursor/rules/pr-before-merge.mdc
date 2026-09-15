@@ -1,0 +1,26 @@
+---
+description: Always create a pull request before merging. Never merge straight to main.
+alwaysApply: true
+---
+
+# Pull request before merge
+
+`main` is protected by process: **create a pull request before any merge**.
+
+## Required
+
+- Do all work on a feature branch. Do not commit to `main`.
+- After the first meaningful commit, **push the branch and open a pull request**.
+- Keep that PR updated as you iterate (push, then update the PR description if the work changed).
+- Do not merge (and do not enable auto-merge) unless the user explicitly asks to merge.
+
+## Forbidden
+
+- Pushing commits directly to `main`
+- Fast-forwarding or resetting `main` to land work without a PR
+- Merging from the CLI (`git merge`, `git rebase` onto `main` + push, `gh pr merge`) when no PR exists
+- Treating “the branch is pushed” as done — the PR is the merge gate
+
+## Cloud / Cursor agents
+
+Use the pull-request tool (`ManagePullRequest`) to open or update the PR. Do not use `gh pr create` / `gh pr merge` for that. PRs default to draft unless the user asks otherwise.
