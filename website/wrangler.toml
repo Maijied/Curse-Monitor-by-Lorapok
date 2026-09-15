@@ -1,0 +1,5 @@
+# Cloudflare Pages — Curse Monitor marketing site
+# Deploy: wrangler pages deploy website --project-name=curse-monitor
+name = "curse-monitor"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "."

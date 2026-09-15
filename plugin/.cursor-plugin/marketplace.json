@@ -1,0 +1,19 @@
+{
+  "name": "curse-monitor",
+  "owner": {
+    "name": "Lorapok Labs",
+    "email": "admin@lorapok.tech",
+    "url": "https://lorapok.tech"
+  },
+  "metadata": {
+    "description": "Curse Monitor — live Cursor usage CLI skills for Grok Bot and Cursor agents by Lorapok Labs.",
+    "version": "0.1.2"
+  },
+  "plugins": [
+    {
+      "name": "curse-monitor",
+      "source": "./",
+      "description": "Live Cursor usage — quotas, bonus credits, Auto/API %, budget, and billing cycle via the curse-monitor CLI for agents and Grok Bot."
+    }
+  ]
+}

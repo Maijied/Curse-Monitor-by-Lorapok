@@ -1,0 +1,13 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+.env
+.env.*
+*.log
+coverage/
+.cred-vault/
+*.vsix
+.wrangler/
+.dev.vars
+website/.wrangler/

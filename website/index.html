@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Curse Monitor by Lorapok — Live Cursor usage for CLI + Grok Bot</title>
+  <meta name="description" content="Live Cursor usage for CLI + Grok Bot — quotas, bonus credits, Auto/API %, billing cycle. Know your limits before they know you." />
+  <link rel="canonical" href="https://curse.lorapok.tech/" />
+  <meta name="theme-color" content="#6C5CE7" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://curse.lorapok.tech/" />
+  <meta property="og:title" content="Curse Monitor by Lorapok" />
+  <meta property="og:description" content="Live Cursor usage for CLI + Grok Bot — quotas, bonus credits, Auto/API %, billing cycle." />
+  <meta property="og:image" content="https://curse.lorapok.tech/assets/logo.png" />
+  <meta property="og:site_name" content="Curse Monitor" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Curse Monitor by Lorapok" />
+  <meta name="twitter:description" content="Live Cursor usage for CLI + Grok Bot — quotas, bonus credits, Auto/API %, billing cycle." />
+  <meta name="twitter:image" content="https://curse.lorapok.tech/assets/logo.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="128x128" href="/assets/icon-128.png" />
+  <link rel="apple-touch-icon" href="/assets/icon-256.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="/">
+        <img src="/assets/logo.svg" width="36" height="36" alt="" />
+        <span>Curse Monitor</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#features" class="hide-sm">Features</a>
+        <a href="#install" class="hide-sm">Install</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/privacy.html" class="hide-sm">Privacy</a>
+        <a class="nav-cta" href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <img class="hero-logo" src="/assets/logo.png" width="140" height="140" alt="Curse Monitor by Lorapok — Larvae mascot" />
+        <div class="eyebrow">Lorapok Labs · CLI + Grok Bot</div>
+        <h1>Curse Monitor <span class="accent">by Lorapok</span></h1>
+        <p class="tagline">Live Cursor usage for CLI + Grok Bot — quotas, bonus credits, Auto/API %, billing cycle</p>
+        <p class="quote">“Know your limits before they know you.”</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#install">Install CLI</a>
+          <a class="btn btn-ghost" href="/docs.html">CLI reference</a>
+          <a class="btn btn-neon" href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">View on GitHub</a>
+        </div>
+        <div class="badge-row">
+          <span class="pill">Node ≥ 20</span>
+          <span class="pill neon">MIT</span>
+          <span class="pill">Local-first auth</span>
+          <span class="pill">Companion to cursor.lorapok.tech</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <h2 class="section-title">What you get</h2>
+        <p class="section-lead">A lean terminal board and agent plugin — not the VS Code extension. Surfaces the same Cursor usage story your dashboard has, right where you work.</p>
+        <div class="grid">
+          <article class="card">
+            <div class="icon" aria-hidden="true">⌘</div>
+            <h3>CLI status / watch / json / whoami</h3>
+            <p>Pretty boxed board, live refresh, machine-readable JSON for agents, and account discovery across Cursor product folders.</p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">Σ</div>
+            <h3>Bonus pool math</h3>
+            <p>Included + bonus/agent credits → combined pool, remaining, and at-limit — so a “100%” included bar doesn’t hide leftover bonus.</p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">⚠</div>
+            <h3>Stale 100% detection</h3>
+            <p>Yellow banner when the API shows 100% but pool remaining is still positive — catch misleading meters before you overreact.</p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">✦</div>
+            <h3>Grok Bot plugin</h3>
+            <p>Marketplace-ready skills under <code>plugin/</code> teach Cursor / Grok Bot agents to run <code>curse-monitor status|json|whoami|watch</code>.</p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">%</div>
+            <h3>Auto % · API % · cycle</h3>
+            <p>Auto and API percent used, on-demand spend, and billing-cycle countdown — pace usage through the month.</p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">🔒</div>
+            <h3>Privacy-first</h3>
+            <p>Token stays on your machine. Never printed, never written to JSON. Network only to <code>api2.cursor.sh</code>.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="container">
+        <h2 class="section-title">Install</h2>
+        <p class="section-lead">Clone the repo, build, and link the <code>curse-monitor</code> binary. Requires Node.js 20+ (22+ recommended).</p>
+        <div class="install-panel">
+          <div class="code-wrap">
+            <button type="button" class="copy-btn" data-copy="install-cmd">Copy</button>
+            <pre id="install-cmd"><code>git clone https://github.com/Maijied/Curse-Monitor-by-Lorapok.git
+cd Curse-Monitor-by-Lorapok
+npm install
+npm run build
+npm link
+curse-monitor status</code></pre>
+          </div>
+          <p class="note">Without linking: <code>npm start -- status</code> or <code>node dist/cli.js status</code>. Auth from Cursor session, <code>CURSOR_TOKEN</code>, or <code>--token</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="cta-band">
+          <h2>Ready to watch your limits?</h2>
+          <p>CLI for humans · JSON for agents · Plugin for Grok Bot. Open source under MIT.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">Get the source</a>
+            <a class="btn btn-ghost" href="/docs.html">Read the docs</a>
+            <a class="btn btn-ghost" href="https://cursor.lorapok.tech">Sibling IDE extension</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong style="color: var(--text)">Lorapok Labs</strong>
+        <div>Curse Monitor · MIT License</div>
+        <div class="tiny">© <span data-year>2026</span> Lorapok Labs · Not affiliated with Cursor / Anysphere</div>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="https://lorapok.tech">lorapok.tech</a>
+        <a href="https://cursor.lorapok.tech">cursor.lorapok.tech</a>
+        <a href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">GitHub</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/site.js" defer></script>
+</body>
+</html>

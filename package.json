@@ -1,0 +1,62 @@
+{
+  "name": "curse-monitor",
+  "version": "0.1.2",
+  "description": "Live Cursor usage for CLI + Grok Bot \u2014 quotas, bonus credits, Auto/API %, budget, and billing cycle. Companion to Cursor Curse Monitor by Lorapok Labs.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "curse-monitor": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js",
+    "cli": "node dist/cli.js",
+    "demo": "node scripts/demo-status.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "curse-monitor",
+    "cursor",
+    "usage",
+    "quota",
+    "billing",
+    "cli",
+    "grok-bot",
+    "lorapok",
+    "limits",
+    "budget"
+  ],
+  "author": {
+    "name": "Lorapok Labs",
+    "email": "admin@lorapok.tech",
+    "url": "https://lorapok.tech"
+  },
+  "homepage": "https://curse.lorapok.tech",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "chalk": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  },
+  "files": [
+    "dist",
+    "plugin",
+    "media",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Maijied/Curse-Monitor-by-Lorapok.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Maijied/Curse-Monitor-by-Lorapok/issues"
+  }
+}

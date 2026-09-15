@@ -1,0 +1,23 @@
+{
+  "name": "curse-monitor",
+  "displayName": "Curse Monitor",
+  "version": "0.1.2",
+  "description": "Live Cursor usage for agents and Grok Bot — included quotas, bonus credits, Auto/API %, on-demand spend, and billing cycle via the curse-monitor CLI. Never prints tokens.",
+  "author": {
+    "name": "Lorapok Labs",
+    "email": "admin@lorapok.tech",
+    "url": "https://lorapok.tech"
+  },
+  "homepage": "https://cursor.lorapok.tech",
+  "license": "MIT",
+  "keywords": [
+    "cursor",
+    "usage",
+    "quota",
+    "billing",
+    "cli",
+    "grok-bot",
+    "lorapok"
+  ],
+  "logo": "assets/logo.png"
+}

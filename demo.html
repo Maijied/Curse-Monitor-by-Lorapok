@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Curse Monitor Demo</title>
+<style>
+  body { margin:0; min-height:100vh; background:#0a0a12; color:#e8e8f0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; }
+  img { width:160px; height:160px; border-radius:28px; box-shadow:0 0 40px #6C5CE766; }
+  h1 { margin:0; color:#a29bfe; letter-spacing:.04em; }
+  .sub { color:#888; margin-top:-12px; }
+  .board { background:#12121f; border:1px solid #6C5CE7; border-radius:16px; padding:28px 36px; min-width:560px; box-shadow:0 0 0 1px #6C5CE733; }
+  .row { display:flex; gap:16px; margin:8px 0; align-items:center; }
+  .label { width:90px; color:#888; }
+  .bar { height:10px; border-radius:99px; background:#1e1e2e; overflow:hidden; width:220px; }
+  .fill { height:100%; background:linear-gradient(90deg,#39ff14,#6C5CE7); }
+  .fill.full { background:#e74c3c; }
+  .fill.warn { background:#f1c40f; }
+  .val { color:#ddd; }
+  .warn { color:#f1c40f; margin-top:16px; }
+</style></head><body>
+  <img src="media/logo.png" alt="Curse Monitor by Lorapok Labs — Larvae mascot" width="160" height="160" />
+  <h1>Curse Monitor</h1>
+  <div class="sub">Lorapok Labs · CLI + Grok Bot plugin · “Know your limits before they know you.”</div>
+  <div class="board">
+    <div class="row"><span class="label">Account</span><span class="val">demo@lorapok.tech</span></div>
+    <div class="row"><span class="label">Plan</span><span class="val" style="color:#a29bfe">enterprise (team)</span></div>
+    <div class="row"><span class="label">Included</span><div class="bar"><div class="fill full" style="width:100%"></div></div><span class="val">2,000 / 2,000 · 100%</span></div>
+    <div class="row"><span class="label">Bonus</span><div class="bar"><div class="fill" style="width:0%"></div></div><span class="val">0 / 23,214 · agent credits</span></div>
+    <div class="row"><span class="label">Pool</span><div class="bar"><div class="fill" style="width:8%"></div></div><span class="val">2,000 / 25,214 · 7.9% (23,214 left)</span></div>
+    <div class="row"><span class="label">Auto %</span><div class="bar"><div class="fill full" style="width:100%"></div></div><span class="val">100%</span></div>
+    <div class="row"><span class="label">API %</span><div class="bar"><div class="fill full" style="width:100%"></div></div><span class="val">100%</span></div>
+    <div class="row"><span class="label">Cycle</span><span class="val">Aug 15 → Sep 15, 2026 (1d until reset)</span></div>
+    <div class="warn">⚠ Stale 100% banner — 23,214 bonus credits remain</div>
+  </div>
+</body></html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Docs — Curse Monitor CLI &amp; plugin | Lorapok</title>
+  <meta name="description" content="Curse Monitor CLI reference: status, watch, json, whoami. Grok Bot / Cursor agent plugin install. Auth and privacy notes." />
+  <link rel="canonical" href="https://curse.lorapok.tech/docs.html" />
+  <meta name="theme-color" content="#6C5CE7" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://curse.lorapok.tech/docs.html" />
+  <meta property="og:title" content="Docs — Curse Monitor by Lorapok" />
+  <meta property="og:description" content="CLI reference + Grok Bot plugin install for Curse Monitor." />
+  <meta property="og:image" content="https://curse.lorapok.tech/assets/logo.png" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="/">
+        <img src="/assets/logo.svg" width="36" height="36" alt="" />
+        <span>Curse Monitor</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/docs.html" aria-current="page">Docs</a>
+        <a href="/privacy.html" class="hide-sm">Privacy</a>
+        <a class="nav-cta" href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="container">
+        <div class="eyebrow">Documentation</div>
+        <h1 class="section-title">CLI reference &amp; plugin</h1>
+        <p class="section-lead">Commands, auth order, and how to point Grok Bot / Cursor agents at the plugin package.</p>
+
+        <div class="docs-layout">
+          <aside class="toc" aria-label="On this page">
+            <h2>On this page</h2>
+            <ul>
+              <li><a href="#install">Install</a></li>
+              <li><a href="#commands">Commands</a></li>
+              <li><a href="#auth">Auth</a></li>
+              <li><a href="#plugin">Plugin</a></li>
+              <li><a href="#metrics">Metrics</a></li>
+              <li><a href="#library">Library API</a></li>
+            </ul>
+          </aside>
+
+          <div>
+            <article class="doc-block" id="install">
+              <h2>Install</h2>
+              <div class="code-wrap">
+                <button type="button" class="copy-btn" data-copy="docs-install">Copy</button>
+                <pre id="docs-install" class="code-block"><code>git clone https://github.com/Maijied/Curse-Monitor-by-Lorapok.git
+cd Curse-Monitor-by-Lorapok
+npm install && npm run build && npm link
+curse-monitor --help</code></pre>
+              </div>
+              <p class="note">Requirements: Node.js <strong>20+</strong> (22+ recommended for built-in <code>node:sqlite</code>) and a signed-in Cursor session, or a token via env / flag.</p>
+            </article>
+
+            <article class="doc-block" id="commands">
+              <h2>Commands</h2>
+              <pre class="code-block"><code>curse-monitor              # pretty status board (default)
+curse-monitor status
+curse-monitor watch [--interval 30]
+curse-monitor json
+curse-monitor whoami
+curse-monitor --help</code></pre>
+              <table>
+                <thead>
+                  <tr><th>Command</th><th>Purpose</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>status</code></td><td>Human-facing boxed board</td></tr>
+                  <tr><td><code>json</code></td><td>Machine-readable snapshot + richer <code>metrics</code> for agents</td></tr>
+                  <tr><td><code>whoami</code></td><td>Which Cursor product folder / email will be used</td></tr>
+                  <tr><td><code>watch</code></td><td>Live refresh every N seconds (default 30)</td></tr>
+                </tbody>
+              </table>
+            </article>
+
+            <article class="doc-block" id="auth">
+              <h2>Auth</h2>
+              <table>
+                <thead>
+                  <tr><th>Source</th><th>Priority</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>--token &lt;token&gt;</code></td><td>1</td></tr>
+                  <tr><td><code>CURSOR_TOKEN</code> env</td><td>2</td></tr>
+                  <tr><td>Cursor <code>state.vscdb</code> (<code>cursorAuth/accessToken</code>)</td><td>3</td></tr>
+                </tbody>
+              </table>
+              <p>Product folders searched (Linux paths shown; macOS/Windows supported):</p>
+              <ol style="color: var(--muted); padding-left: 1.2rem;">
+                <li><code>~/.config/Cursor/User/globalStorage/state.vscdb</code></li>
+                <li><code>dCursor</code>, <code>Cursor Nightly</code>, <code>Windsurf</code> (same relative path)</li>
+              </ol>
+              <p>The access token is <strong>never</strong> logged or written to JSON output. See <a href="/privacy.html">Privacy</a>.</p>
+            </article>
+
+            <article class="doc-block" id="plugin">
+              <h2>Grok Bot / Cursor agent plugin</h2>
+              <p style="color: var(--muted);">Marketplace-ready package under <code>plugin/</code>:</p>
+              <pre class="code-block"><code>plugin/
+  .cursor-plugin/plugin.json
+  .cursor-plugin/marketplace.json
+  assets/logo.png (+ svg)
+  skills/… (status, watch, overview)
+  README.md · LICENSE · CHANGELOG.md</code></pre>
+              <ol style="color: var(--muted); padding-left: 1.2rem;">
+                <li>Install the CLI first (<code>npm link</code> from the repo).</li>
+                <li>Point Cursor / Grok Bot at the <code>plugin/</code> directory.</li>
+                <li>Skills teach agents to run <code>curse-monitor status | json | whoami | watch</code>.</li>
+              </ol>
+              <p class="note">Submit via <a href="https://cursor.com/marketplace/publish">cursor.com/marketplace/publish</a> once the public GitHub repo is live. Checklist: <code>PLUGIN_STORE.md</code> in the repo.</p>
+            </article>
+
+            <article class="doc-block" id="metrics">
+              <h2>What the board shows</h2>
+              <table>
+                <thead>
+                  <tr><th>Field</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Included pool</td><td>Bar + used / total from plan breakdown</td></tr>
+                  <tr><td>Bonus / Agent credits</td><td>Shown when bonus &gt; 0</td></tr>
+                  <tr><td>Combined pool</td><td>included + bonus; remaining drives at-limit</td></tr>
+                  <tr><td>Auto % / API %</td><td>Always when present on the plan</td></tr>
+                  <tr><td>On-demand</td><td>Cents → USD when values look like cents</td></tr>
+                  <tr><td>Cycle</td><td>Billing start → end + days until reset</td></tr>
+                  <tr><td>Stale 100% banner</td><td>Yellow when API says 100% but <code>pool.remaining &gt; 0</code></td></tr>
+                </tbody>
+              </table>
+            </article>
+
+            <article class="doc-block" id="library">
+              <h2>Library API</h2>
+              <pre class="code-block"><code>import {
+  resolveAuth,
+  fetchSnapshot,
+  buildBudgetMetrics,
+  resolveUsagePlanPool,
+  formatStatusBoard,
+} from "curse-monitor";
+
+const auth = resolveAuth();
+const snap = await fetchSnapshot(auth.accessToken, { email: auth.email });
+console.log(formatStatusBoard(snap));</code></pre>
+              <p style="color: var(--muted);">Endpoints (Bearer token): <code>GET https://api2.cursor.sh/auth/usage-summary</code> and <code>GET https://api2.cursor.sh/auth/full_stripe_profile</code>.</p>
+            </article>
+
+            <div class="cta-band" style="text-align: left;">
+              <h2 style="margin: 0 0 0.5rem;">Sibling product</h2>
+              <p style="margin: 0 0 1rem;">Full IDE experience: <a href="https://cursor.lorapok.tech">Cursor Curse Monitor</a> · More from <a href="https://lorapok.tech">Lorapok Labs</a>.</p>
+              <a class="btn btn-primary" href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">GitHub repo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong style="color: var(--text)">Lorapok Labs</strong>
+        <div>Curse Monitor · MIT License</div>
+        <div class="tiny">© <span data-year>2026</span> Lorapok Labs</div>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="https://lorapok.tech">lorapok.tech</a>
+        <a href="https://cursor.lorapok.tech">cursor.lorapok.tech</a>
+        <a href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">GitHub</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/site.js" defer></script>
+</body>
+</html>

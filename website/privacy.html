@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy — Curse Monitor by Lorapok</title>
+  <meta name="description" content="Curse Monitor privacy: local Cursor token, never uploaded by the CLI. No telemetry." />
+  <link rel="canonical" href="https://curse.lorapok.tech/privacy.html" />
+  <meta name="theme-color" content="#6C5CE7" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://curse.lorapok.tech/privacy.html" />
+  <meta property="og:title" content="Privacy — Curse Monitor by Lorapok" />
+  <meta property="og:description" content="Local token, never uploaded by the CLI. No telemetry." />
+  <meta property="og:image" content="https://curse.lorapok.tech/assets/logo.png" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="/">
+        <img src="/assets/logo.svg" width="36" height="36" alt="" />
+        <span>Curse Monitor</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/docs.html">Docs</a>
+        <a href="/privacy.html" aria-current="page">Privacy</a>
+        <a class="nav-cta" href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="container prose">
+        <div class="eyebrow">Privacy</div>
+        <h1 class="section-title">Your token stays local</h1>
+        <p class="section-lead" style="margin-bottom: 1rem;">Short version: Curse Monitor reads your Cursor session on this machine and never uploads credentials.</p>
+
+        <div class="callout">
+          <strong>CLI never uploads your token.</strong> Auth is resolved locally from Cursor <code>state.vscdb</code>, <code>CURSOR_TOKEN</code>, or <code>--token</code>. The access token is never logged or written to JSON output.
+        </div>
+
+        <h2>What we collect</h2>
+        <ul>
+          <li><strong>Nothing from the CLI.</strong> No telemetry, analytics, or crash phones-home.</li>
+          <li><strong>No credential vault files</strong> written by Curse Monitor.</li>
+          <li>Network calls go only to <code>api2.cursor.sh</code> (usage summary + Stripe profile) using your session Bearer token.</li>
+        </ul>
+
+        <h2>This marketing site</h2>
+        <p>The static site at <code>curse.lorapok.tech</code> (or a <code>*.pages.dev</code> preview) may see standard web-server / CDN request logs (IP, user-agent, path). We do not run account login or store personal usage data on this site.</p>
+
+        <h2>Sibling products</h2>
+        <p>Privacy practices for the full IDE extension and related Lorapok tools live with those products — see <a href="https://cursor.lorapok.tech">cursor.lorapok.tech</a> and <a href="https://lorapok.tech">lorapok.tech</a>.</p>
+
+        <p style="margin-top: 2rem;"><a class="btn btn-ghost" href="/">← Back home</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong style="color: var(--text)">Lorapok Labs</strong>
+        <div>Curse Monitor · MIT License</div>
+        <div class="tiny">© <span data-year>2026</span> Lorapok Labs</div>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="https://lorapok.tech">lorapok.tech</a>
+        <a href="https://cursor.lorapok.tech">cursor.lorapok.tech</a>
+        <a href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">GitHub</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/site.js" defer></script>
+</body>
+</html>
