@@ -70,4 +70,93 @@
 
   const yearEl = document.querySelector("[data-year]");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  const mascot = document.getElementById("lorapok-mascot");
+  if (mascot) {
+    const lineEl = mascot.querySelector("[data-mascot-line]");
+    const pupils = mascot.querySelectorAll(".mascot-pupil-track");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const WARD_LINE = "Warding your limits, cutely.";
+    const MOODS = [
+      ["ward", WARD_LINE],
+      ["happy", "Let’s get you installed."],
+      ["curious", "Hmm, what’s this command?"],
+      ["scan", "Scanning your quotas…"],
+      ["guard", "Token stays on your machine."],
+      ["worried", "Honest limits — no dollar split."],
+      ["angry", "Stale 100%? That makes Ward mad."],
+      ["wink", "Grok Bot plugin. Ward’s in on it."],
+      ["celebrate", "Copied. You’re clear."],
+      ["proud", "Open source. Lorapok Labs, proudly."],
+    ];
+    let holdTimer = 0;
+    let stickyUntil = 0;
+    let cycling = false;
+
+    const setMood = (mood, line, holdMs = 0) => {
+      mascot.dataset.mood = mood || "ward";
+      if (lineEl) lineEl.textContent = line || WARD_LINE;
+      window.clearTimeout(holdTimer);
+      stickyUntil = holdMs > 0 ? Date.now() + holdMs : 0;
+      if (holdMs > 0) {
+        holdTimer = window.setTimeout(() => {
+          if (!cycling) setMood("ward", WARD_LINE);
+        }, holdMs);
+      }
+    };
+
+    setMood("ward", WARD_LINE);
+
+    document.querySelectorAll("[data-mascot-mood]").forEach((el) => {
+      const apply = () => {
+        if (cycling) return;
+        setMood(el.getAttribute("data-mascot-mood"), el.getAttribute("data-mascot-line"));
+      };
+      const reset = () => {
+        if (cycling || Date.now() < stickyUntil) return;
+        setMood("ward", WARD_LINE);
+      };
+      el.addEventListener("pointerenter", apply);
+      el.addEventListener("focus", apply);
+      el.addEventListener("pointerleave", reset);
+      el.addEventListener("blur", reset);
+      if (el.hasAttribute("data-copy")) {
+        el.addEventListener("click", () => {
+          setMood("celebrate", "Copied. You’re clear.", 1800);
+        });
+      }
+    });
+
+    mascot.addEventListener("click", async () => {
+      cycling = true;
+      for (let i = 0; i < MOODS.length; i += 1) {
+        setMood(MOODS[i][0], MOODS[i][1]);
+        await new Promise((resolve) => window.setTimeout(resolve, reduceMotion ? 280 : 720));
+      }
+      cycling = false;
+      setMood("ward", WARD_LINE);
+    });
+
+    if (!reduceMotion) {
+      const blink = () => {
+        if (mascot.dataset.mood !== "wink") {
+          mascot.classList.add("is-blink");
+          window.setTimeout(() => mascot.classList.remove("is-blink"), 120);
+        }
+        window.setTimeout(blink, 2200 + Math.random() * 2800);
+      };
+      window.setTimeout(blink, 1400);
+
+      window.addEventListener("pointermove", (event) => {
+        const rect = mascot.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = Math.max(-5, Math.min(5, ((event.clientX - cx) / rect.width) * 10));
+        const dy = Math.max(-4, Math.min(4, ((event.clientY - cy) / rect.height) * 8));
+        pupils.forEach((p) => {
+          p.style.transform = `translate(${dx}px, ${dy}px)`;
+        });
+      });
+    }
+  }
 })();

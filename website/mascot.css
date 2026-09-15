@@ -1,0 +1,375 @@
+/* Ward — Lorapok Labs mascot (Grok-bot companion, Framer-style motion) */
+
+.lorapok-mascot {
+  --mascot-spring: cubic-bezier(0.22, 1.35, 0.36, 1);
+  --mascot-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --mascot-glow: #39ff14;
+  --mascot-ring: #6c5ce7;
+  display: grid;
+  justify-items: center;
+  gap: 0.55rem;
+  margin: 0 auto 1.1rem;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  width: min(100%, 280px);
+  font: inherit;
+}
+
+.lorapok-mascot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 28px;
+}
+
+.mascot-stage {
+  position: relative;
+  width: 220px;
+  height: 236px;
+  filter: drop-shadow(0 18px 28px rgba(108, 92, 231, 0.28));
+}
+
+.mascot-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+.mascot-line {
+  margin: 0;
+  min-height: 1.35em;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: color 0.35s var(--mascot-soft), transform 0.45s var(--mascot-spring);
+}
+
+.lorapok-mascot[data-mood="angry"] .mascot-line { color: #ff8a8a; }
+.lorapok-mascot[data-mood="worried"] .mascot-line { color: var(--warn); }
+.lorapok-mascot[data-mood="happy"],
+.lorapok-mascot[data-mood="celebrate"] { }
+.lorapok-mascot[data-mood="happy"] .mascot-line,
+.lorapok-mascot[data-mood="celebrate"] .mascot-line { color: var(--neon); }
+.lorapok-mascot[data-mood="guard"] .mascot-line { color: #c4b5fd; }
+
+/* Idle float — springy, not a rigid wiggle */
+.mascot-float {
+  transform-origin: 110px 200px;
+  animation: mascot-float 3.4s var(--mascot-soft) infinite;
+}
+
+@keyframes mascot-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-1.4deg); }
+  40% { transform: translate3d(0, -7px, 0) rotate(1.8deg); }
+  70% { transform: translate3d(0, -3px, 0) rotate(-0.4deg); }
+}
+
+.mascot-orbit-ring {
+  transform-origin: 110px 108px;
+  animation: mascot-spin 18s linear infinite;
+}
+
+.mascot-orbit-dot {
+  transform-origin: 110px 108px;
+  animation: mascot-spin 7.5s linear infinite reverse;
+}
+
+@keyframes mascot-spin {
+  to { transform: rotate(360deg); }
+}
+
+.mascot-ground {
+  animation: mascot-shadow 3.4s var(--mascot-soft) infinite;
+  transform-origin: 110px 222px;
+}
+
+@keyframes mascot-shadow {
+  0%, 100% { opacity: 0.22; transform: scaleX(1); }
+  40% { opacity: 0.12; transform: scaleX(0.82); }
+}
+
+.mascot-antenna {
+  transform-origin: 110px 48px;
+  animation: mascot-antenna 2.2s var(--mascot-soft) infinite;
+}
+
+@keyframes mascot-antenna {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(8deg); }
+}
+
+.mascot-antenna-orb {
+  animation: mascot-orb 1.7s ease-in-out infinite;
+  transform-origin: 110px 16px;
+}
+
+@keyframes mascot-orb {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+.mascot-arm-left,
+.mascot-arm-right {
+  transform-box: fill-box;
+  transform-origin: center top;
+}
+
+.mascot-arm-left { animation: mascot-arm-l 2.8s var(--mascot-soft) infinite; }
+.mascot-arm-right { animation: mascot-arm-r 2.8s var(--mascot-soft) infinite; }
+
+@keyframes mascot-arm-l {
+  0%, 100% { transform: rotate(4deg); }
+  50% { transform: rotate(-10deg); }
+}
+@keyframes mascot-arm-r {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+}
+
+.mascot-seg {
+  transition: fill 0.35s var(--mascot-soft), stroke 0.35s var(--mascot-soft);
+}
+
+.mascot-head {
+  transform-origin: 110px 118px;
+  transition: transform 0.45s var(--mascot-spring);
+}
+
+.mascot-pupil-track {
+  transition: transform 0.18s var(--mascot-soft);
+}
+
+.eye-lid {
+  transform-origin: center;
+  transform-box: fill-box;
+  transform: scaleY(0);
+  transition: transform 0.08s ease;
+}
+
+.lorapok-mascot.is-blink .eye-lid {
+  transform: scaleY(1);
+}
+
+.mouth {
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+.mouth-ward { opacity: 1; }
+
+.brow {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.35s var(--mascot-spring), opacity 0.2s ease, stroke 0.3s ease;
+}
+
+.mascot-cheek {
+  opacity: 0.35;
+  transition: opacity 0.3s ease, fill 0.3s ease;
+}
+
+.mascot-spark {
+  animation: mascot-spark 2.4s ease-in-out infinite;
+}
+.mascot-spark:nth-child(2) { animation-delay: 0.4s; }
+.mascot-spark:nth-child(3) { animation-delay: 0.9s; }
+.mascot-spark:nth-child(4) { animation-delay: 1.3s; }
+
+@keyframes mascot-spark {
+  0%, 100% { opacity: 0.15; transform: scale(0.7); }
+  50% { opacity: 0.9; transform: scale(1); }
+}
+
+.mascot-steam {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.eye-glow,
+.eye-pupil {
+  transition: fill 0.3s ease, opacity 0.3s ease;
+}
+
+/* —— Moods —— */
+
+.lorapok-mascot[data-mood="happy"] .mouth-ward,
+.lorapok-mascot[data-mood="celebrate"] .mouth-ward,
+.lorapok-mascot[data-mood="wink"] .mouth-ward,
+.lorapok-mascot[data-mood="angry"] .mouth-ward,
+.lorapok-mascot[data-mood="worried"] .mouth-ward,
+.lorapok-mascot[data-mood="curious"] .mouth-ward,
+.lorapok-mascot[data-mood="proud"] .mouth-ward,
+.lorapok-mascot[data-mood="guard"] .mouth-ward,
+.lorapok-mascot[data-mood="scan"] .mouth-ward {
+  opacity: 0;
+}
+
+.lorapok-mascot[data-mood="happy"] .mouth-happy,
+.lorapok-mascot[data-mood="celebrate"] .mouth-happy,
+.lorapok-mascot[data-mood="wink"] .mouth-happy { opacity: 1; }
+
+.lorapok-mascot[data-mood="angry"] .mouth-angry { opacity: 1; }
+.lorapok-mascot[data-mood="worried"] .mouth-worried { opacity: 1; }
+.lorapok-mascot[data-mood="curious"] .mouth-curious { opacity: 1; }
+.lorapok-mascot[data-mood="proud"] .mouth-proud { opacity: 1; }
+.lorapok-mascot[data-mood="guard"] .mouth-guard { opacity: 1; }
+.lorapok-mascot[data-mood="scan"] .mouth-scan { opacity: 1; }
+
+.lorapok-mascot[data-mood="happy"] .mascot-cheek,
+.lorapok-mascot[data-mood="celebrate"] .mascot-cheek,
+.lorapok-mascot[data-mood="wink"] .mascot-cheek {
+  opacity: 0.85;
+  fill: #ff8aa8;
+}
+
+.lorapok-mascot[data-mood="happy"] .mascot-float {
+  animation: mascot-bounce 0.9s var(--mascot-spring) infinite;
+}
+.lorapok-mascot[data-mood="celebrate"] .mascot-float {
+  animation: mascot-celebrate 0.7s var(--mascot-spring) infinite;
+}
+
+@keyframes mascot-bounce {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -12px, 0) scale(1.04, 0.96); }
+}
+@keyframes mascot-celebrate {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-8deg) scale(1.04); }
+  50% { transform: translate3d(0, -14px, 0) rotate(8deg) scale(1.08); }
+}
+
+.lorapok-mascot[data-mood="angry"] {
+  --mascot-glow: #ff6b6b;
+}
+.lorapok-mascot[data-mood="angry"] .mascot-float {
+  animation: mascot-shake 0.42s ease-in-out infinite;
+}
+.lorapok-mascot[data-mood="angry"] .brow {
+  opacity: 1;
+  stroke: #ff6b6b;
+}
+.lorapok-mascot[data-mood="angry"] .brow-left { transform: rotate(22deg) translate(1px, 3px); }
+.lorapok-mascot[data-mood="angry"] .brow-right { transform: rotate(-22deg) translate(-1px, 3px); }
+.lorapok-mascot[data-mood="angry"] .eye-glow,
+.lorapok-mascot[data-mood="angry"] .eye-pupil { fill: #ff6b6b; }
+.lorapok-mascot[data-mood="angry"] .eye-white { stroke: #ff6b6b; }
+.lorapok-mascot[data-mood="angry"] .mascot-orbit-ring { stroke: #ff6b6b; animation-duration: 4s; }
+.lorapok-mascot[data-mood="angry"] .mascot-antenna-orb { fill: #ff6b6b; }
+.lorapok-mascot[data-mood="angry"] .mascot-steam { opacity: 0.85; }
+
+@keyframes mascot-shake {
+  0%, 100% { transform: translate3d(-3px, 0, 0) rotate(-2deg); }
+  25% { transform: translate3d(4px, -2px, 0) rotate(3deg); }
+  50% { transform: translate3d(-2px, 1px, 0) rotate(-1deg); }
+  75% { transform: translate3d(3px, -1px, 0) rotate(2deg); }
+}
+
+.lorapok-mascot[data-mood="worried"] .brow {
+  opacity: 1;
+  stroke: #fbbf24;
+}
+.lorapok-mascot[data-mood="worried"] .brow-left { transform: rotate(-16deg) translate(0, -2px); }
+.lorapok-mascot[data-mood="worried"] .brow-right { transform: rotate(16deg) translate(0, -2px); }
+.lorapok-mascot[data-mood="worried"] .eye-glow,
+.lorapok-mascot[data-mood="worried"] .eye-pupil { fill: #fbbf24; }
+.lorapok-mascot[data-mood="worried"] .mascot-head { transform: rotate(-6deg) translateY(2px); }
+.lorapok-mascot[data-mood="worried"] .mascot-antenna-orb { fill: #fbbf24; }
+
+.lorapok-mascot[data-mood="curious"] .mascot-head { transform: rotate(8deg) translate(4px, -2px); }
+.lorapok-mascot[data-mood="curious"] .brow-right {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+.lorapok-mascot[data-mood="proud"] .mascot-head { transform: translateY(-4px) scale(1.03); }
+.lorapok-mascot[data-mood="proud"] .mascot-arm-right {
+  animation: mascot-wave 0.7s var(--mascot-spring) infinite;
+}
+
+@keyframes mascot-wave {
+  0%, 100% { transform: rotate(8deg); }
+  50% { transform: rotate(38deg); }
+}
+
+.lorapok-mascot[data-mood="guard"] .mascot-badge {
+  fill: #6c5ce7;
+  stroke: #39ff14;
+}
+.lorapok-mascot[data-mood="guard"] .mascot-orbit-ring {
+  stroke: #6c5ce7;
+  animation-duration: 6s;
+}
+.lorapok-mascot[data-mood="guard"] .brow {
+  opacity: 1;
+  transform: translateY(1px);
+}
+
+.lorapok-mascot[data-mood="scan"] .eye-glow {
+  animation: mascot-scan 0.9s linear infinite;
+}
+.lorapok-mascot[data-mood="scan"] .mascot-orbit-ring {
+  animation-duration: 3.2s;
+  stroke: #4d9fff;
+}
+
+@keyframes mascot-scan {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+.lorapok-mascot[data-mood="wink"] .mascot-eye-right .eye-lid {
+  transform: scaleY(1);
+}
+.lorapok-mascot[data-mood="wink"] .mascot-arm-right {
+  animation: mascot-wave 0.65s var(--mascot-spring) infinite;
+}
+
+.lorapok-mascot[data-mood="celebrate"] .mascot-spark {
+  animation-duration: 0.7s;
+}
+
+.mascot-hint {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+@media (max-width: 640px) {
+  .mascot-stage {
+    width: 176px;
+    height: 190px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-float,
+  .mascot-orbit-ring,
+  .mascot-orbit-dot,
+  .mascot-ground,
+  .mascot-antenna,
+  .mascot-antenna-orb,
+  .mascot-arm-left,
+  .mascot-arm-right,
+  .mascot-spark,
+  .lorapok-mascot[data-mood="happy"] .mascot-float,
+  .lorapok-mascot[data-mood="celebrate"] .mascot-float,
+  .lorapok-mascot[data-mood="angry"] .mascot-float,
+  .lorapok-mascot[data-mood="proud"] .mascot-arm-right,
+  .lorapok-mascot[data-mood="wink"] .mascot-arm-right,
+  .lorapok-mascot[data-mood="scan"] .eye-glow {
+    animation: none !important;
+  }
+
+  .mascot-pupil-track,
+  .mascot-head,
+  .brow,
+  .mouth,
+  .mascot-line {
+    transition: none !important;
+  }
+}
