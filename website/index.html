@@ -68,7 +68,7 @@
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="/">
-        <img src="/assets/logo.svg" width="36" height="36" alt="" />
+        <img class="lorapok-mark" src="/assets/logo.svg" width="36" height="36" alt="" />
         <span>Curse Monitor</span>
       </a>
       <nav class="nav-links" aria-label="Primary">
@@ -84,15 +84,116 @@
   <main id="main-content">
     <section class="hero">
       <div class="container">
-        <img class="hero-logo larvae-pulse" src="/assets/logo.svg" width="140" height="140" alt="Curse Monitor by Lorapok — Larvae mascot" />
+        <button type="button" class="lorapok-mascot" id="lorapok-mascot" data-mood="ward" aria-label="Ward, the Lorapok Labs mascot. Click to cycle expressions.">
+          <span class="mascot-stage" aria-hidden="true">
+            <svg class="mascot-svg" viewBox="0 0 220 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="lm-armor" x1="40" y1="20" x2="180" y2="220" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#5b6578"/>
+                  <stop offset="42%" stop-color="#1b2230"/>
+                  <stop offset="100%" stop-color="#2d3748"/>
+                </linearGradient>
+                <linearGradient id="lm-ring" x1="20" y1="10" x2="200" y2="210" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#39ff14"/>
+                  <stop offset="100%" stop-color="#6C5CE7"/>
+                </linearGradient>
+                <radialGradient id="lm-eye" cx="50%" cy="45%" r="55%">
+                  <stop offset="0%" stop-color="#d4ff9a"/>
+                  <stop offset="50%" stop-color="#39ff14"/>
+                  <stop offset="100%" stop-color="#14610e"/>
+                </radialGradient>
+                <filter id="lm-glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="2.4" result="b"/>
+                  <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              <g class="mascot-orbit">
+                <circle class="mascot-orbit-ring" cx="110" cy="108" r="98" stroke="url(#lm-ring)" stroke-width="1.8" stroke-dasharray="8 7" opacity="0.7"/>
+                <circle class="mascot-orbit-dot" cx="110" cy="10" r="3.4" fill="#39ff14"/>
+              </g>
+              <ellipse class="mascot-ground" cx="110" cy="226" rx="46" ry="7" fill="#39ff14" opacity="0.18"/>
+              <g class="mascot-float">
+                <g class="mascot-antenna">
+                  <path d="M110 52 L110 20" stroke="#6C5CE7" stroke-width="3.2" stroke-linecap="round"/>
+                  <circle class="mascot-antenna-orb" cx="110" cy="16" r="7.2" fill="#39ff14" filter="url(#lm-glow)"/>
+                  <path d="M110 13 l2.2 4.4 h-4.4 z" fill="#0a0a12" opacity="0.55"/>
+                </g>
+                <g class="mascot-arm mascot-arm-left">
+                  <path d="M62 150 Q40 162 46 184" stroke="#6C5CE7" stroke-width="6" stroke-linecap="round"/>
+                </g>
+                <g class="mascot-arm mascot-arm-right">
+                  <path d="M158 150 Q180 162 174 184" stroke="#6C5CE7" stroke-width="6" stroke-linecap="round"/>
+                </g>
+                <ellipse class="mascot-seg mascot-seg-3" cx="110" cy="192" rx="34" ry="16" fill="url(#lm-armor)" stroke="#4a5568" stroke-width="1.3"/>
+                <ellipse class="mascot-seg mascot-seg-2" cx="110" cy="168" rx="42" ry="20" fill="url(#lm-armor)" stroke="#4a5568" stroke-width="1.3"/>
+                <circle class="mascot-badge" cx="110" cy="166" r="7.5" fill="#0a0a12" stroke="#39ff14" stroke-width="1.4"/>
+                <path d="M110 163 v6 M107 166 h6" stroke="#39ff14" stroke-width="1.2" stroke-linecap="round"/>
+                <g class="mascot-head">
+                  <ellipse cx="52" cy="102" rx="11" ry="16" fill="url(#lm-armor)" stroke="#6C5CE7" stroke-width="1.2"/>
+                  <ellipse cx="168" cy="102" rx="11" ry="16" fill="url(#lm-armor)" stroke="#6C5CE7" stroke-width="1.2"/>
+                  <ellipse class="mascot-head-fill" cx="110" cy="102" rx="58" ry="54" fill="url(#lm-armor)" stroke="#6C5CE7" stroke-width="2"/>
+                  <ellipse cx="88" cy="84" rx="18" ry="10" fill="#fff" opacity="0.07"/>
+                  <g class="mascot-brows">
+                    <path class="brow brow-left" d="M76 74 Q88 68 100 76" stroke="#e8ecf4" stroke-width="3.2" stroke-linecap="round"/>
+                    <path class="brow brow-right" d="M120 76 Q132 68 144 74" stroke="#e8ecf4" stroke-width="3.2" stroke-linecap="round"/>
+                  </g>
+                  <g class="mascot-eyes">
+                    <g class="mascot-eye mascot-eye-left">
+                      <ellipse class="eye-white" cx="88" cy="102" rx="16" ry="18" fill="#07090e" stroke="#39ff14" stroke-width="1.6"/>
+                      <g class="mascot-pupil-track">
+                        <circle class="eye-glow" cx="88" cy="104" r="8.5" fill="url(#lm-eye)" filter="url(#lm-glow)"/>
+                        <circle class="eye-pupil" cx="88" cy="104" r="5.6" fill="#39ff14"/>
+                        <circle class="eye-shine" cx="84" cy="100" r="2" fill="#fff"/>
+                      </g>
+                      <ellipse class="eye-lid" cx="88" cy="102" rx="16" ry="18" fill="#1b2230"/>
+                    </g>
+                    <g class="mascot-eye mascot-eye-right">
+                      <ellipse class="eye-white" cx="132" cy="102" rx="16" ry="18" fill="#07090e" stroke="#39ff14" stroke-width="1.6"/>
+                      <g class="mascot-pupil-track">
+                        <circle class="eye-glow" cx="132" cy="104" r="8.5" fill="url(#lm-eye)" filter="url(#lm-glow)"/>
+                        <circle class="eye-pupil" cx="132" cy="104" r="5.6" fill="#39ff14"/>
+                        <circle class="eye-shine" cx="128" cy="100" r="2" fill="#fff"/>
+                      </g>
+                      <ellipse class="eye-lid" cx="132" cy="102" rx="16" ry="18" fill="#1b2230"/>
+                    </g>
+                  </g>
+                  <ellipse class="mascot-cheek mascot-cheek-left" cx="68" cy="122" rx="9" ry="5" fill="#ff8aa8"/>
+                  <ellipse class="mascot-cheek mascot-cheek-right" cx="152" cy="122" rx="9" ry="5" fill="#ff8aa8"/>
+                  <g class="mascot-mouths">
+                    <path class="mouth mouth-ward" d="M94 128 Q110 140 126 128" stroke="#39ff14" stroke-width="3.2" stroke-linecap="round"/>
+                    <path class="mouth mouth-happy" d="M90 126 Q110 148 130 126" stroke="#39ff14" stroke-width="3.4" stroke-linecap="round"/>
+                    <path class="mouth mouth-angry" d="M94 138 Q110 124 126 138" stroke="#ff6b6b" stroke-width="3.4" stroke-linecap="round"/>
+                    <path class="mouth mouth-worried" d="M102 132 Q110 128 118 132" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+                    <path class="mouth mouth-curious" d="M100 128 Q118 138 128 126" stroke="#39ff14" stroke-width="3.2" stroke-linecap="round"/>
+                    <path class="mouth mouth-proud" d="M98 128 Q116 136 128 124" stroke="#39ff14" stroke-width="3.2" stroke-linecap="round"/>
+                    <path class="mouth mouth-guard" d="M96 132 H124" stroke="#39ff14" stroke-width="3.2" stroke-linecap="round"/>
+                    <path class="mouth mouth-scan" d="M104 130 H116" stroke="#4d9fff" stroke-width="3" stroke-linecap="round"/>
+                  </g>
+                </g>
+                <g class="mascot-steam">
+                  <path d="M70 70 q-6 -10 -2 -18" stroke="#ff6b6b" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+                  <path d="M150 70 q6 -10 2 -18" stroke="#ff6b6b" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+                </g>
+              </g>
+              <g class="mascot-sparkles">
+                <circle class="mascot-spark" cx="28" cy="64" r="3" fill="#6C5CE7"/>
+                <circle class="mascot-spark" cx="196" cy="58" r="2.6" fill="#39ff14"/>
+                <circle class="mascot-spark" cx="24" cy="168" r="2.2" fill="#39ff14"/>
+                <circle class="mascot-spark" cx="198" cy="176" r="3" fill="#6C5CE7"/>
+              </g>
+            </svg>
+          </span>
+          <span class="mascot-line" data-mascot-line>Warding your limits, cutely.</span>
+          <span class="mascot-hint">Hover a card · click Ward to cycle faces</span>
+        </button>
         <div class="eyebrow">Lorapok Labs · CLI + Grok Bot plugin · v0.3.0</div>
         <h1>Curse Monitor <span class="accent">by Lorapok</span></h1>
         <p class="tagline">Live Cursor usage for CLI + agents — quotas, bonus credits, Auto/API %, grouped reports, billing cycle</p>
         <p class="quote">“Know your limits before they know you.”</p>
         <div class="hero-actions">
-          <a class="btn btn-primary btn-loadable" href="#install"><span class="btn-label">Install CLI</span><span class="btn-larvae-loader" hidden></span></a>
-          <a class="btn btn-ghost" href="/docs.html">CLI reference</a>
-          <a class="btn btn-neon" href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">View on GitHub</a>
+          <a class="btn btn-primary btn-loadable" href="#install" data-mascot-mood="happy" data-mascot-line="Let’s get you installed."><span class="btn-label">Install CLI</span><span class="btn-larvae-loader" hidden></span></a>
+          <a class="btn btn-ghost" href="/docs.html" data-mascot-mood="curious" data-mascot-line="Peeking at the CLI reference.">CLI reference</a>
+          <a class="btn btn-neon" href="https://github.com/Maijied/Curse-Monitor-by-Lorapok" data-mascot-mood="proud" data-mascot-line="Open source. Lorapok Labs, proudly.">View on GitHub</a>
         </div>
         <div class="badge-row">
           <span class="pill">Node ≥ 20</span>
@@ -108,38 +209,38 @@
         <h2 class="section-title">What you get</h2>
         <p class="section-lead">A lean terminal board and agent plugin — not the VS Code extension. Surfaces Cursor usage where you work, including grouped reports.</p>
         <div class="grid">
-          <article class="card">
+          <article class="card" data-mascot-mood="scan" data-mascot-line="Scanning quotas, accounts, and whoami.">
             <img class="feature-svg" src="/assets/features/monitor-dashboard.svg" alt="" />
             <h3>CLI status / accounts / json / whoami</h3>
             <p>Pretty boxed board, live refresh, machine-readable JSON for agents, and multi-account list/switch across Cursor product folders.</p>
           </article>
-          <article class="card">
+          <article class="card" data-mascot-mood="curious" data-mascot-line="Grouping reports by model, Auto, and surface.">
             <img class="feature-svg" src="/assets/features/usage-meter.svg" alt="" />
             <h3>Reports by model, Auto/API, surface</h3>
             <p><code>curse-monitor report</code> groups <code>model</code>, <code>autoApi</code>, or <code>surface</code> over <code>7d</code>, <code>30d</code>, <code>cycle</code>, or <code>mtd</code>.</p>
           </article>
-          <article class="card">
+          <article class="card" data-mascot-mood="happy" data-mascot-line="Bonus pool still has room. Cute.">
             <img class="feature-svg" src="/assets/features/budget-cap.svg" alt="" />
             <h3>Bonus pool math</h3>
             <p>Included + bonus/agent credits → combined pool, remaining, and at-limit — so a “100%” included bar doesn’t hide leftover bonus.</p>
           </article>
-          <article class="card">
+          <article class="card" data-mascot-mood="angry" data-mascot-line="Stale 100%? That makes Ward mad.">
             <img class="feature-svg" src="/assets/features/billing-cycle.svg" alt="" />
             <h3>Stale 100% detection</h3>
             <p>Yellow banner when the API shows 100% but pool remaining is still positive — catch misleading meters before you overreact.</p>
           </article>
-          <article class="card">
+          <article class="card" data-mascot-mood="wink" data-mascot-line="Grok Bot plugin. Ward’s in on it.">
             <img class="feature-svg" src="/assets/features/activity-bar.svg" alt="" />
             <h3>Grok Bot plugin</h3>
             <p>Marketplace-ready skills under <code>plugins/curse-monitor/</code> teach agents to run status, report, json, whoami, accounts, use, and watch.</p>
           </article>
-          <article class="card">
+          <article class="card" data-mascot-mood="guard" data-mascot-line="Token stays on your machine. Ward’s on duty.">
             <img class="feature-svg" src="/assets/features/security-shield.svg" alt="" />
             <h3>Privacy-first</h3>
             <p>Token stays on your machine. Never printed, never written to JSON. Network only to <code>api2.cursor.sh</code>.</p>
           </article>
         </div>
-        <div class="constraint-callout">
+        <div class="constraint-callout" data-mascot-mood="worried" data-mascot-line="Honest limit: no per-model dollar split.">
           <strong>Honest limit:</strong> Cursor API does not expose per-model dollar spend. Model breakdown is local active-model / analytics grouping plus Auto/API meters — not a dollar split.
         </div>
       </div>
@@ -151,7 +252,7 @@
         <p class="section-lead">Clone the repo, build, and link the <code>curse-monitor</code> binary. Requires Node.js 20+ (22+ recommended).</p>
         <div class="install-panel">
           <div class="code-wrap">
-            <button type="button" class="copy-btn" data-copy="install-cmd">Copy</button>
+            <button type="button" class="copy-btn" data-copy="install-cmd" data-mascot-mood="celebrate" data-mascot-line="Copied. You’re clear.">Copy</button>
             <pre id="install-cmd"><code>git clone https://github.com/Maijied/Curse-Monitor-by-Lorapok.git
 cd Curse-Monitor-by-Lorapok
 npm install
@@ -170,9 +271,9 @@ curse-monitor report</code></pre>
           <h2>Ready to watch your limits?</h2>
           <p>CLI for humans · JSON for agents · Plugin for Grok Bot. Open source under MIT.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="https://github.com/Maijied/Curse-Monitor-by-Lorapok">Get the source</a>
-            <a class="btn btn-ghost" href="/docs.html">Read the docs</a>
-            <a class="btn btn-ghost" href="https://cursor.lorapok.tech">Sibling IDE extension</a>
+            <a class="btn btn-primary" href="https://github.com/Maijied/Curse-Monitor-by-Lorapok" data-mascot-mood="proud" data-mascot-line="Go get the source.">Get the source</a>
+            <a class="btn btn-ghost" href="/docs.html" data-mascot-mood="curious" data-mascot-line="Docs time. Ward’s reading along.">Read the docs</a>
+            <a class="btn btn-ghost" href="https://cursor.lorapok.tech" data-mascot-mood="wink" data-mascot-line="Sibling IDE extension. Same family.">Sibling IDE extension</a>
           </div>
         </div>
       </div>
