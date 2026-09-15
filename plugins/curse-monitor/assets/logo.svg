@@ -1,53 +1,58 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-label="Curse Monitor by Lorapok">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-label="Ward — Lorapok Labs mascot">
   <defs>
-    <linearGradient id="armor" x1="20" y1="16" x2="108" y2="112" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#3d4654"/>
-      <stop offset="50%" stop-color="#1a1f28"/>
-      <stop offset="100%" stop-color="#2b3340"/>
+    <linearGradient id="ward-armor" x1="22" y1="14" x2="110" y2="118" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4b5568"/>
+      <stop offset="42%" stop-color="#1c2330"/>
+      <stop offset="100%" stop-color="#2a3344"/>
     </linearGradient>
-    <linearGradient id="ring" x1="16" y1="16" x2="112" y2="112" gradientUnits="userSpaceOnUse">
+    <linearGradient id="ward-ring" x1="12" y1="12" x2="116" y2="116" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#39ff14"/>
       <stop offset="100%" stop-color="#6C5CE7"/>
     </linearGradient>
-    <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#39ff14"/>
-      <stop offset="65%" stop-color="#39ff14" stop-opacity="0.55"/>
-      <stop offset="100%" stop-color="#39ff14" stop-opacity="0"/>
+    <radialGradient id="ward-eye" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#b6ff8a"/>
+      <stop offset="55%" stop-color="#39ff14"/>
+      <stop offset="100%" stop-color="#1a7a12"/>
     </radialGradient>
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2.2" result="b"/>
+    <filter id="ward-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.8" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
   <rect width="128" height="128" rx="28" fill="#0a0a12"/>
-  <circle cx="64" cy="64" r="58" stroke="url(#ring)" stroke-width="2.5" fill="none" stroke-dasharray="8 6" opacity="0.9">
-    <animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="18s" repeatCount="indefinite"/>
+  <circle cx="64" cy="64" r="58" stroke="url(#ward-ring)" stroke-width="2.4" fill="none" stroke-dasharray="7 5" opacity="0.92">
+    <animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="16s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="64" cy="64" r="52" stroke="#6C5CE7" stroke-width="1" fill="none" opacity="0.35">
-    <animate attributeName="r" values="50;54;50" dur="2.8s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.2;0.45;0.2" dur="2.8s" repeatCount="indefinite"/>
+  <circle cx="64" cy="64" r="50" stroke="#6C5CE7" stroke-width="1" fill="none" opacity="0.28">
+    <animate attributeName="r" values="48;52;48" dur="2.6s" repeatCount="indefinite"/>
   </circle>
-  <ellipse cx="64" cy="80" rx="34" ry="28" fill="url(#armor)" stroke="#4a5568" stroke-width="1.2"/>
-  <ellipse cx="64" cy="54" rx="28" ry="24" fill="url(#armor)" stroke="#4a5568" stroke-width="1.2"/>
-  <path d="M48 60 Q64 70 80 60" stroke="url(#ring)" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-  <path d="M38 90 L32 104 M44 94 L38 110 M84 94 L90 110 M90 90 L96 104" stroke="#6C5CE7" stroke-width="2.6" stroke-linecap="round" opacity="0.85"/>
-  <ellipse cx="64" cy="46" rx="26" ry="22" fill="url(#armor)" stroke="#6C5CE7" stroke-width="1.4"/>
-  <ellipse cx="52" cy="44" rx="10" ry="11" fill="#0a0e14" stroke="#39ff14" stroke-width="1"/>
-  <ellipse cx="76" cy="44" rx="10" ry="11" fill="#0a0e14" stroke="#39ff14" stroke-width="1"/>
-  <g filter="url(#glow)">
-    <circle cx="52" cy="44" r="7" fill="url(#eyeGlow)">
-      <animate attributeName="opacity" values="0.75;1;0.75" dur="1.6s" repeatCount="indefinite"/>
+  <!-- antenna -->
+  <path d="M64 28 V14" stroke="#6C5CE7" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="64" cy="12" r="4.2" fill="#39ff14" filter="url(#ward-glow)">
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+  <!-- body -->
+  <ellipse cx="64" cy="96" rx="26" ry="16" fill="url(#ward-armor)" stroke="#4a5568" stroke-width="1.1"/>
+  <ellipse cx="64" cy="82" rx="30" ry="18" fill="url(#ward-armor)" stroke="#4a5568" stroke-width="1.1"/>
+  <!-- arms -->
+  <path d="M38 84 Q28 92 30 104" stroke="#6C5CE7" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M90 84 Q100 92 98 104" stroke="#6C5CE7" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- head -->
+  <ellipse cx="64" cy="54" rx="32" ry="30" fill="url(#ward-armor)" stroke="#6C5CE7" stroke-width="1.6"/>
+  <ellipse cx="52" cy="44" rx="10" ry="6" fill="#ffffff" opacity="0.08"/>
+  <!-- eyes -->
+  <ellipse cx="52" cy="54" rx="9" ry="10.5" fill="#07090e" stroke="#39ff14" stroke-width="1.1"/>
+  <ellipse cx="76" cy="54" rx="9" ry="10.5" fill="#07090e" stroke="#39ff14" stroke-width="1.1"/>
+  <g filter="url(#ward-glow)">
+    <circle cx="52" cy="55" r="4.4" fill="url(#ward-eye)">
+      <animate attributeName="cy" values="55;56;54;55" dur="3.4s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="76" cy="44" r="7" fill="url(#eyeGlow)">
-      <animate attributeName="opacity" values="0.75;1;0.75" dur="1.6s" repeatCount="indefinite"/>
+    <circle cx="76" cy="55" r="4.4" fill="url(#ward-eye)">
+      <animate attributeName="cy" values="55;56;54;55" dur="3.4s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="52" cy="44" r="3.5" fill="#39ff14">
-      <animate attributeName="cx" values="50;54;51;53;52" dur="4s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="76" cy="44" r="3.5" fill="#39ff14">
-      <animate attributeName="cx" values="74;78;75;77;76" dur="4s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="50" cy="42" r="1.2" fill="#fff" opacity="0.95"/>
-    <circle cx="74" cy="42" r="1.2" fill="#fff" opacity="0.95"/>
   </g>
+  <circle cx="50.4" cy="52.6" r="1.35" fill="#fff"/>
+  <circle cx="74.4" cy="52.6" r="1.35" fill="#fff"/>
+  <!-- cute ward smile -->
+  <path d="M54 66 Q64 74 74 66" stroke="#39ff14" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.95"/>
 </svg>

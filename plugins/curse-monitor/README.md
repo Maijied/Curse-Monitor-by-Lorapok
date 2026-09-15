@@ -1,7 +1,7 @@
 # Curse Monitor — Cursor / Grok Bot plugin
 
 <div align="center">
-  <img src="assets/logo-animated.svg" alt="Curse Monitor Larvae" width="128" height="128" />
+  <img src="assets/logo-animated.svg" alt="Ward — Curse Monitor by Lorapok Labs" width="128" height="128" />
   <p><strong>Know your limits before they know you.</strong></p>
   <p>Live Cursor usage for agents · by <a href="https://lorapok.tech">Lorapok Labs</a></p>
 </div>
