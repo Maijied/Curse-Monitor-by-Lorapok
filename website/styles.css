@@ -642,40 +642,6 @@ li code {
   color: #fff;
 }
 
-.welcome-splash {
-  position: fixed;
-  inset: 0;
-  z-index: 70;
-  display: grid;
-  place-items: center;
-  background: #06080d;
-  transition: opacity 0.45s ease, visibility 0.45s ease;
-}
-.welcome-splash.is-gone {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-.welcome-inner {
-  text-align: center;
-  padding: 1.5rem;
-}
-.welcome-larvae {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.5rem;
-}
-.welcome-inner img {
-  width: min(180px, 55vw);
-  height: auto;
-  margin-bottom: 0.75rem;
-}
-.welcome-inner p {
-  color: var(--neon);
-  font-style: italic;
-  text-shadow: 0 0 18px rgba(57, 255, 20, 0.25);
-}
-
 .feature-svg {
   width: 48px;
   height: 48px;
@@ -719,11 +685,7 @@ li code {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-logo.larvae-pulse,
-  .welcome-splash {
+  .hero-logo.larvae-pulse {
     animation: none !important;
-  }
-  .welcome-splash {
-    display: none;
   }
 }
