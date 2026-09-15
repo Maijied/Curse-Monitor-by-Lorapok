@@ -8,6 +8,7 @@
 - Default when unset: prefer **dCursor** when `lorapokdev@gmail.com` is signed in; otherwise the first discovered folder
 - `--token` and `CURSOR_TOKEN` still override; `--account` is a one-shot selector
 - Plugin skills document `accounts` / `use`
+- Ward mascot (Grok-style Lorapok companion) as the official logo across CLI media, plugin, and site
 
 ## 0.2.0 — 2026-09-15
 

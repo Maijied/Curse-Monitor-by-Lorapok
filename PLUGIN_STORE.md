@@ -10,7 +10,7 @@ Layout follows [cursor/plugin-template](https://github.com/cursor/plugin-templat
 |------|------|
 | Marketplace manifest | `.cursor-plugin/marketplace.json` |
 | Plugin manifest | `plugins/curse-monitor/.cursor-plugin/plugin.json` |
-| Logo (animated SVG, relative) | `plugins/curse-monitor/assets/logo-animated.svg` |
+| Logo (Ward animated SVG, relative) | `plugins/curse-monitor/assets/logo-animated.svg` |
 | Skills | `plugins/curse-monitor/skills/*/SKILL.md` |
 | Commands | `plugins/curse-monitor/commands/report.md` |
 | Plugin README | `plugins/curse-monitor/README.md` |
@@ -20,26 +20,24 @@ Layout follows [cursor/plugin-template](https://github.com/cursor/plugin-templat
 
 Version **0.3.0** · Author **Lorapok Labs** · Homepage **https://curse.lorapok.tech**
 
-## Parent / user next steps
-
-1. Keep this GitHub repo public (already: `Maijied/Curse-Monitor-by-Lorapok`).
-2. Ensure `logo` in `plugin.json` stays a **relative** path (`assets/logo-animated.svg`) — no `..`, no absolute paths, file committed.
-3. Run `npm run validate-template` (CI does this on every push/PR).
-4. Open https://cursor.com/marketplace/publish and submit the **public repository URL**.
-5. Confirm CLI is installable (`npm install && npm run build && npm link`).
-
 ## Submission checklist (Cursor docs)
 
-- [ ] Valid `.cursor-plugin/plugin.json` (`name` kebab-case: `curse-monitor`)
-- [ ] Marketplace entry `source` maps to `./plugins/curse-monitor`
-- [ ] Clear store-quality `description`
-- [ ] Skills have YAML frontmatter (`name`, `description`)
-- [ ] Logo committed and referenced with a relative path
-- [ ] `README.md` documents install + usage
-- [ ] Paths are relative (no `..`, no absolute paths)
-- [ ] Tested locally (`curse-monitor status|report|json|whoami|accounts|use|watch`)
-- [ ] Public Git repo URL ready for submission
-- [ ] `node scripts/validate-template.mjs` passes
+- [x] Valid `.cursor-plugin/plugin.json` (`name` kebab-case: `curse-monitor`)
+- [x] Marketplace entry `source` maps to `./plugins/curse-monitor`
+- [x] Clear store-quality `description`
+- [x] Skills have YAML frontmatter (`name`, `description`)
+- [x] Logo committed and referenced with a relative path
+- [x] `README.md` documents install + usage
+- [x] Paths are relative (no `..`, no absolute paths)
+- [x] Tested locally (`curse-monitor status|report|json|whoami|accounts|use|watch` — identity/use/demo pass; live API returns 401 without a fresh Cursor session)
+- [x] Public Git repo URL ready for submission
+- [x] `node scripts/validate-template.mjs` passes
+
+## Remaining (publisher account — cannot be done from this agent)
+
+1. Open https://cursor.com/marketplace/publish and submit `https://github.com/Maijied/Curse-Monitor-by-Lorapok`.
+2. Optional: add GitHub repo secrets `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` so CI can deploy Pages on `main`. Set variable `DEPLOY_API_STUB=true` only when you want the Worker stub published.
+3. Optional: on GitHub, Settings → Rules → require a pull request before merging to `main` (this agent token cannot create rulesets).
 
 ## CI secrets (optional deploy)
 

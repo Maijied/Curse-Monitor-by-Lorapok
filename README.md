@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="media/logo.png" alt="Curse Monitor by Lorapok Labs — Larvae mascot" width="160" height="160" />
+  <img src="media/logo.png" alt="Curse Monitor by Lorapok Labs — Ward mascot" width="160" height="160" />
 
   <h1>Curse Monitor</h1>
 
@@ -20,7 +20,7 @@
 It is a **CLI + Grok Bot / Cursor agent plugin** (not the VS Code extension) that surfaces included pool, bonus/agent credits, Auto %, API %, on-demand spend, billing-cycle countdown, and grouped reports from your local Cursor session.
 
 Site: [curse.lorapok.tech](https://curse.lorapok.tech) · Pages: [curse-monitor.pages.dev](https://curse-monitor.pages.dev) · Repo: [Maijied/Curse-Monitor-by-Lorapok](https://github.com/Maijied/Curse-Monitor-by-Lorapok)  
-Accent: `#6C5CE7` · Neon: `#39ff14` · Mascot: official Lorapok Larvae · Privacy: tokens never printed.
+Accent: `#6C5CE7` · Neon: `#39ff14` · Mascot: **Ward** (Lorapok Labs) · Privacy: tokens never printed.
 
 **Constraint:** Cursor API does **not** expose per-model dollar spend. Model breakdown is local active-model / analytics grouping plus Auto/API meters — never a billed USD split.
 

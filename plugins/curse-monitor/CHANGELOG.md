@@ -4,6 +4,7 @@
 
 - Skills and command docs for `curse-monitor accounts` / `use` / `whoami --list`
 - Agents must never print tokens; selection is a local email + product pointer
+- Ward mascot logo (animated SVG + static SVG + PNG icon set)
 
 ## 0.2.0 — 2026-09-15
 
