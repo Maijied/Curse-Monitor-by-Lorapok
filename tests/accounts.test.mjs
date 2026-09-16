@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { DatabaseSync } from "node:sqlite";
+import { createRequire } from "node:module";
 import {
   discoverAccounts,
   listAccounts,
@@ -19,6 +19,7 @@ import {
   saveAccountPreference,
 } from "../dist/userConfig.js";
 
+const require = createRequire(import.meta.url);
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const cli = join(root, "dist", "cli.js");
 
@@ -34,10 +35,30 @@ function assertNoSecrets(text) {
   assert.equal(/accessToken/i.test(blob) && blob.includes("fixture-token"), false);
 }
 
+/** Open a writable SQLite DB: prefer node:sqlite (Node 22+), else better-sqlite3 (Node 20+). */
+function openWritableDb(dbPath) {
+  try {
+    const { DatabaseSync } = require("node:sqlite");
+    if (typeof DatabaseSync === "function") {
+      return new DatabaseSync(dbPath);
+    }
+  } catch {
+    // fall through
+  }
+  try {
+    const Database = require("better-sqlite3");
+    return new Database(dbPath);
+  } catch (err) {
+    throw new Error(
+      `No writable SQLite backend for fixtures (need node:sqlite or better-sqlite3): ${err?.message ?? err}`
+    );
+  }
+}
+
 function writeStateDb(discoverRoot, productFolder, { email, token, quotedEmail = false }) {
   const dbPath = join(discoverRoot, productFolder, "User", "globalStorage", "state.vscdb");
   mkdirSync(dirname(dbPath), { recursive: true });
-  const db = new DatabaseSync(dbPath);
+  const db = openWritableDb(dbPath);
   db.exec("CREATE TABLE ItemTable (key TEXT PRIMARY KEY, value BLOB)");
   const ins = db.prepare("INSERT INTO ItemTable (key, value) VALUES (?, ?)");
   ins.run("cursorAuth/accessToken", token);

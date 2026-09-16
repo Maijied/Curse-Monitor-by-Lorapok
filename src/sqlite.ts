@@ -44,7 +44,7 @@ export function openDatabase(dbPath: string): SqliteDb {
     }
   } catch {
     throw new Error(
-      "No SQLite backend available. Use Node.js 22+ (built-in node:sqlite) or install better-sqlite3."
+      "No SQLite backend available. Install dependencies (better-sqlite3) or use Node.js 22+ with built-in node:sqlite."
     );
   }
 }
