@@ -40,7 +40,7 @@ npm start -- report
 # equivalent: node dist/cli.js report
 ```
 
-Requirements: Node.js **20+** (Node **22+** recommended for built-in `node:sqlite`) and a signed-in Cursor (or `CURSOR_TOKEN` / `--token`).
+Requirements: Node.js **20+** (ships with `better-sqlite3` for Cursor `state.vscdb`; Node **22+** can also use built-in `node:sqlite`) and a signed-in Cursor (or `CURSOR_TOKEN` / `--token`).
 
 ## CLI
 

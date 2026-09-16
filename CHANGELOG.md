@@ -1,3 +1,7 @@
+## Unreleased
+
+- Node 20 SQLite/accounts fix: add `better-sqlite3`, accounts fixtures no longer import `node:sqlite` at top level, CI matrix Node 20 + 22
+
 # Changelog
 
 ## 0.3.0 — 2026-09-15
